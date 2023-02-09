@@ -12,18 +12,21 @@ import jwt from 'jsonwebtoken';
 
 export const getUserFollowers = async (req, res) => {
 
-  const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findOne({ username: req.body.username });
 
-  const friends = await Promise.all(
-    user.followers.map((id) => User.findById(id))
-  );
-  const formattedFollowers = followers.map(
-    ({ _id, first_name, last_name, username }) => {
-      return { _id, first_name, last_name, username };
-    }
-  );
-  res.status(200).json(formattedFollowers);
+  if(user){
+    // const followers = await Promise.all(
+    //   user.followers.map((id) => User.findById(id))
+    // );
+    const all_users = await User.find({});
+    // const formattedFollowers = followers.map(
+    //   ({ _id, first_name, last_name, username }) => {
+    //     return { _id, first_name, last_name, username };
+    //   }
+    // );
+    // console.log(all_users)
+    res.status(200).json(all_users);
+  }
 
 };
 

@@ -14,4 +14,5 @@ Signout in Navbar
 2. What if username and email already in use?
 3. navbar
 4. Check if followers/following can be reached directly
+5. error handling
 
