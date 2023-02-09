@@ -12,7 +12,8 @@ import jwt from 'jsonwebtoken';
 
 export const getUserFollowers = async (req, res) => {
 
-  const user = await User.findOne({ username: req.body.username });
+  const  { username } = req.body;
+  const user = await User.findOne({ username: username });
 
   if(user){
     // const followers = await Promise.all(

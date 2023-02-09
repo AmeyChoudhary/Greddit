@@ -17,6 +17,7 @@ const Followers = () => {
         if (token) {
             let decoded_user = jwt(token)
             setuser(decoded_user)
+            getUserFollowers()
 
         }
         // is said to disble the warning of react hook dependency missing
@@ -25,10 +26,12 @@ const Followers = () => {
 
     
 
-    useEffect(() => {
-        getUserFollowers()
-        // eslint-disable-next-line
-    }, []);
+    
+
+    // useEffect(() => {
+    //     getUserFollowers()
+    //     // eslint-disable-next-line
+    // }, []);
 
 
     // const getUserFollowers = () => {
@@ -51,8 +54,9 @@ const Followers = () => {
         // console.log(followers)
     // }
 
-    const getUserFollowers =  async() => {
-        console.log(user.username)
+    const getUserFollowers = async() => {
+        // console.log(user.username)
+        const username = user.username
          const response = await fetch('http://localhost:4000/users/followers', {
             method: 'POST',
             headers: {
@@ -60,7 +64,7 @@ const Followers = () => {
 
             },
             body: JSON.stringify({
-                "username": user.username
+                "username": username
             })
         });
         let data = await response.json();
