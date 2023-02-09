@@ -1,15 +1,15 @@
 import React from "react";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import jwt from 'jwt-decode'
 import Navbar from "./Navbar";
-import './Profile.css'
+import '../Components_CSS/Profile.css'
 
 import { MDBBtn, MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBInput } from 'mdb-react-ui-kit';
 
 const Profile = () => {
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const [user, setuser] = useState({})
   const [edit_func, setedit_func] = useState(false)
@@ -32,6 +32,13 @@ const Profile = () => {
   //   localStorage.removeItem("token");
   //   navigate("/auth?mode=login");
   // };
+
+  const followers_func = () => {
+    navigate("/profile/followers")
+  }
+
+  const following_func = () => {
+  }
 
   const edit_profile = async () => {
     if (!edit_func) {
@@ -111,11 +118,11 @@ const Profile = () => {
                       <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
                       <MDBTypography tag="h6">Followers</MDBTypography>
-                      { <MDBCardText className="text-muted">{user.followers_num}</MDBCardText>}
+                      {< MDBBtn className='mb-3' size='md' id="followers_button" onClick={followers_func} >{user.followers_num}</MDBBtn>}
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
                       <MDBTypography tag="h6">Following</MDBTypography>
-                      { <MDBCardText className="text-muted" >{user.following_num}</MDBCardText>}
+                      {< MDBBtn className=' mb-3' size='md' id="following_button" onClick={following_func} >{user.following_num}</MDBBtn>}
                       </MDBCol>
                       </MDBRow>
                     </MDBCardBody>

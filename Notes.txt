@@ -13,5 +13,5 @@ Signout in Navbar
 1. Age dropdown in register and error handling
 2. What if username and email already in use?
 3. navbar
-4. 
+4. Check if followers/following can be reached directly
 
