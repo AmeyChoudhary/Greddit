@@ -2,13 +2,13 @@ import User from "../Models/User.js";
 import jwt from 'jsonwebtoken';
 
 /* READ */
-export const getUser = async (req, res) => {
+// export const getUser = async (req, res) => {
 
-  const { id } = req.params;
-  const user = await User.findById(id);
-  res.status(200).json(user);
+//   const { id } = req.params;
+//   const user = await User.findById(id);
+//   res.status(200).json(user);
 
-};
+// };
 
 export const getUserFollowers = async (req, res) => {
 
@@ -48,5 +48,8 @@ export const updateUserprofile = async (req, res) => {
 
 
 
+}
+
+export const getUserFollowing = async (req, res) => {
 }
 

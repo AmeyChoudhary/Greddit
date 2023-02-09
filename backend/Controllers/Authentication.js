@@ -25,6 +25,8 @@ export const register = async (req, res) => {
         password: passwordHash,
         contact_number,
         age,
+        followers_num: 0,
+        following_num: 0,
         followers: {},
         following: {},
         user_description: "Ae Roopali, Pakad meri Daali, Yo Yo bantai Rapper",
@@ -36,20 +38,18 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
-    if (!user) 
-    {
+    if (!user) {
         return res.status(400).json({ error: "User does not exist. " });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) 
-    {
+    if (!isMatch) {
         return res.status(400).json({ error: "Invalid credentials. " });
     }
 
     // return res.status(200).json({ msg: "Login successful. " });
 
-    const token = jwt.sign({ id: user._id, first_name: user.first_name , last_name: user.last_name, email: user.email, username: user.username,  contact_number: user.contact_number, age: user.age , followers_num: user.followers_num, following_num: user.following_num, user_description: user.user_description}, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, following_num: user.following_num, user_description: user.user_description }, process.env.JWT_SECRET);
     delete user.password;
-    res.status(200).json({ token});
+    res.status(200).json({ token });
 };

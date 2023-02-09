@@ -105,13 +105,19 @@ const Profile = () => {
                       </MDBRow>
 
                       <br></br>
-{/* 
+
                       <MDBTypography tag="h6">Followers and Following</MDBTypography>
                       <hr className="mt-0 mb-4" />
+                      <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
-
+                      <MDBTypography tag="h6">Followers</MDBTypography>
+                      { <MDBCardText className="text-muted">{user.followers_num}</MDBCardText>}
                       </MDBCol>
-                     */}
+                      <MDBCol size="6" className="mb-3">
+                      <MDBTypography tag="h6">Following</MDBTypography>
+                      { <MDBCardText className="text-muted" >{user.following_num}</MDBCardText>}
+                      </MDBCol>
+                      </MDBRow>
                     </MDBCardBody>
                   </MDBCol>
                 </MDBRow>

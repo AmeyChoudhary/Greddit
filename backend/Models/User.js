@@ -38,18 +38,18 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    // followers_num: {
-    //     type: Number,
-    //     required: true,
-    //     trim: true,
-    //     default: 0,
-    // },
-    // following_num: {
-    //     type: Number,
-    //     required: true,
-    //     trim: true,
-    //     default: 0,
-    // },
+    followers_num: {
+        type: Number,
+        required: true,
+        trim: true,
+        default: 0,
+    },
+    following_num: {
+        type: Number,
+        required: true,
+        trim: true,
+        default: 0,
+    },
     followers: {
         type: [{
             first_name: String,
