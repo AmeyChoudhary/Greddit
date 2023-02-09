@@ -25,8 +25,8 @@ export const register = async (req, res) => {
         password: passwordHash,
         contact_number,
         age,
-        followers_num: 0,
-        following_num: 0,
+        followers: {},
+        following: {},
         user_description: "Ae Roopali, Pakad meri Daali, Yo Yo bantai Rapper",
     });
     const save_User = await new_User.save();
