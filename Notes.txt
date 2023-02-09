@@ -1,0 +1,17 @@
+type module in package json of backend to allow import
+make frontend at end. do back end now
+
+
+verify token lite dekh lena ek baar also tokens and redirect puch lena pura karne  ke baad authentication middleware
+
+do users ka object
+
+username password
+
+Signout in Navbar
+
+1. Age dropdown in register and error handling
+2. What if username and email already in use?
+3. navbar
+4. 
+
