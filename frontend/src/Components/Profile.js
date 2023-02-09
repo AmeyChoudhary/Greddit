@@ -108,7 +108,7 @@ const Profile = () => {
 
                       <MDBTypography tag="h6">Followers and Following</MDBTypography>
                       <hr className="mt-0 mb-4" />
-                      <MDBCol size="6" className="mb-4">
+                      <MDBCol size="6" className="mb-3">
 
                       </MDBCol>
                     
