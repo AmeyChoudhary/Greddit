@@ -59,6 +59,7 @@ const Followers = () => {
             })
         });
         let data = await response.json();
+        console.log(data)
         setfollowers(data);
 
         // const response_all_users = await fetch('http://localhost:4000/users/all_users', {
@@ -76,7 +77,7 @@ const Followers = () => {
         // setall_users_followers(data_all_users);
     }
 
-    const Remove = async (e,username, followers_username) => {
+    const Remove = async (e, username, followers_username) => {
         const response = await fetch('http://localhost:4000/users/followers/remove', {
             method: 'POST',
             headers: {
@@ -91,13 +92,11 @@ const Followers = () => {
         let data = await response.json();
         console.log(data)
 
-        e.target=  () => {
+        e.target = () => {
             e.target.disabled = true;
         };
 
     }
-
-
 
     const getUserFollowing = async () => {
         const username = user_orginal.username;
@@ -131,7 +130,7 @@ const Followers = () => {
 
     }
 
-    const Unfollow = async (e,username, following_username) => {
+    const Unfollow = async (e, username, following_username) => {
         const response = await fetch('http://localhost:4000/users/followings/unfollow', {
             method: 'POST',
             headers: {
@@ -146,7 +145,7 @@ const Followers = () => {
         let data = await response.json();
         console.log(data)
 
-        e.target=  () => {
+        e.target = () => {
             e.target.disabled = true;
         };
     }
@@ -164,12 +163,13 @@ const Followers = () => {
             })
         });
         let data = await response.json();
+        console.log(data)
         setpotential_followings(data);
 
 
     }
 
-    const Follow = async (e,username, potential_following_username) => {
+    const Follow = async (e, username, potential_following_username) => {
         const response = await fetch('http://localhost:4000/users/potential_followings/follow', {
             method: 'POST',
             headers: {
@@ -185,7 +185,7 @@ const Followers = () => {
         let data = await response.json();
         console.log(data)
 
-        e.target=  () => {
+        e.target = () => {
             e.target.disabled = true;
         };
     }
@@ -233,6 +233,7 @@ const Followers = () => {
                     </MDBTabsItem>
 
                 </MDBTabs>
+
                 {fillActive === "free" && <h1 align="center"> Click on the tabs to see the content </h1>}
 
                 <MDBTabsContent>
@@ -240,7 +241,7 @@ const Followers = () => {
                         <h3>You are being followed by the followings:</h3>
                         {/* <MDBBtn color='link' rounded size='sm' onClick={getUserFollowers}>Display followers</MDBBtn> */}
 
-                        {followers.length > 0 && followers.map((followers) => <div>
+                        {followers.length > 0 && followers.map((followers) => <div key={followers.username}>
                             <MDBTable align='middle'>
                                 <MDBTableHead>
                                     <tr>
@@ -264,15 +265,15 @@ const Followers = () => {
 
                                         </td>
 
-                                        
-                                            <td>
-                                                <MDBBtn color='link' rounded size='sm' onClick={Remove(user_orginal.username, followers.followers_username)}>
-                                                    Remove from Followers
-                                                </MDBBtn>
-                                            </td>
+
+                                        <td>
+                                            <MDBBtn color='link' rounded size='sm' onClick={Remove(user_orginal.username, followers.followers_username)}>
+                                                Remove from Followers
+                                            </MDBBtn>
+                                        </td>
 
 
-                                        
+
 
                                     </tr>
                                 </MDBTableBody>
@@ -282,7 +283,7 @@ const Followers = () => {
                     <MDBTabsPane show={fillActive === 'followings'}>
                         <h3>You are followings the followings:</h3>
                         {/* <MDBBtn color='link' rounded size='sm' onClick={getUserFollowing}>Display followings</MDBBtn> */}
-                        {followings.length > 0 && followings.map((followings) => <div>
+                        {followings.length > 0 && followings.map((followings) => <div key={followings.username}>
                             <MDBTable align='middle'>
                                 <MDBTableHead>
                                     <tr>
@@ -319,9 +320,10 @@ const Followers = () => {
 
                     </MDBTabsPane>
                     <MDBTabsPane show={fillActive === 'people_to_follow'}>
+                        {console.log(potential_followings)}
                         <h3>People to follow:</h3>
                         {/* <MDBBtn color='link' rounded size='sm' onClick={getPotentialFollowings}>Display potential followings</MDBBtn> */}
-                        {potential_followings.length > 0 && potential_followings.map((potential_followings) => <div>
+                        {potential_followings.length > 0 && potential_followings.map((potential_followings) => <div key={potential_followings.username}>
                             <MDBTable align='middle'>
                                 <MDBTableHead>
                                     <tr>
@@ -359,7 +361,7 @@ const Followers = () => {
 
                     </MDBTabsPane>
 
-                    
+
 
                 </MDBTabsContent>
 
