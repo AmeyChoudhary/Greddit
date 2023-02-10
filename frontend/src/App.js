@@ -23,7 +23,7 @@ function App() {
 
           />
           <Route 
-            path="/profile/followers"
+            path="/profile/followers_following"
             element={
               <Protected children={<Followers />}></Protected>
             }></Route>

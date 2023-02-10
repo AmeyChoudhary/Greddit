@@ -26,9 +26,9 @@ export const register = async (req, res) => {
         contact_number,
         age,
         followers_num: 0,
-        following_num: 0,
+        followings_num: 0,
         followers: {},
-        following: {},
+        followings: {},
         user_description: "Ae Roopali, Pakad meri Daali, Yo Yo bantai Rapper",
     });
     const save_User = await new_User.save();
@@ -49,7 +49,7 @@ export const login = async (req, res) => {
 
     // return res.status(200).json({ msg: "Login successful. " });
 
-    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, following_num: user.following_num, user_description: user.user_description }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, followings_num: user.followings_num, user_description: user.user_description }, process.env.JWT_SECRET);
     delete user.password;
     res.status(200).json({ token });
 };

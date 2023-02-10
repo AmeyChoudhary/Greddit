@@ -44,7 +44,7 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         default: 0,
     },
-    following_num: {
+    followings_num: {
         type: Number,
         required: true,
         trim: true,
@@ -54,14 +54,14 @@ const UserSchema = new mongoose.Schema({
         type: [{
             first_name: String,
             last_name: String,
-            followers_username: { type: String },
+            followers_username: String ,
         }], sparse: true
     },
-    following: {
+    followings: {
         type: [{
             first__name: String,
             lastname: String,
-            following_username: { type: String },
+            following_username: String ,
         }], sparse: true
     },
     user_description: {
