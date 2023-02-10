@@ -1,80 +1,67 @@
 import React from 'react'
 import Navbar from './Navbar';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
+import { useEffect } from 'react';
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import jwt from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const Followers = () => {
 
-    const [user, setuser] = useState({})
-    const [ followers, setfollowers ] = useState()
-    const [ all_users, setall_users ] = useState({})
-
-
-
+    let navigate = useNavigate();
+    const [ user_orginal, Setuser_org ] = useState({});
+    // const [ followers, setfollowers ] = useState()
+    // const [ all_users, setall_users ] = useState({})
+    
+    
+    
     useEffect(() => {
-        let token = localStorage.getItem("token");
-        if (token) {
-            let decoded_user = jwt(token)
-            setuser(decoded_user)
-            getUserFollowers()
-
+        
+        const fetchdata = async()=>{
+            
+            let token = localStorage.getItem("token");
+            if (token) {
+                let decoded_user = await jwt(token)
+                await Setuser_org(decoded_user)
+               
+            }
+            else
+            {
+                navigate("/auth?mode=login")
+            }
         }
+       
+            
+        fetchdata();
+        // getUserFollowers();
+
         // is said to disble the warning of react hook dependency missing
         // eslint-disable-next-line
     }, []);
 
-    
+    // const getUserFollowers = async() => {
+        
+    //     const username = user_orginal.username;
+    //     console.log(user_orginal)
+    //     const response = await fetch('http://localhost:4000/users/followers', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
 
-    
-
-    // useEffect(() => {
-    //     getUserFollowers()
-    //     // eslint-disable-next-line
-    // }, []);
-
-
-    // const getUserFollowers = () => {
-    //     console.log(user.username)
-        // const response = await fetch('http://localhost:4000/users/followers', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-
-        //     },
-        //     body: JSON.stringify({
-        //         "username": user.username
-        //     })
-        // });
-
-        // let data = await response.json();
-        // setfollowers(data.formattedFollowers)
-        // setall_users(data.all_users)
-        // console.log(all_users)
-        // console.log(followers)
+    //         },
+    //         body: JSON.stringify({
+    //             "username": username
+    //         })
+    //     });
+    //     // console.log(response)
+    //     let data = await response.json();
+    //     // console.log("data is ",data)
+    //     // setall_users(data)
+    //     // console.log(all_users)
     // }
 
-    const getUserFollowers = async() => {
-        // console.log(user.username)
-        const username = user.username
-         const response = await fetch('http://localhost:4000/users/followers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-
-            },
-            body: JSON.stringify({
-                "username": username
-            })
-        });
-        let data = await response.json();
-        console.log(data)
-        // setall_users(data.all_users)
-        // console.log(all_users)
-    }
-
     return (
-        <>
+        <div>
             <Navbar></Navbar>
             <h1 align="center">Followers</h1>
             <h3>You are being followed by the following:</h3>
@@ -186,7 +173,7 @@ const Followers = () => {
             </MDBTable>
 
 
-        </>
+        </div>
     )
 }
 

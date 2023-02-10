@@ -135,7 +135,6 @@ const Profile = () => {
           </MDBRow>
         </MDBContainer>
       </section>
-      );
 
 
     </>
