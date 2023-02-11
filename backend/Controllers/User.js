@@ -10,47 +10,6 @@ import jwt from 'jsonwebtoken';
 
 // };
 
-export const getUserFollowers = async (req, res) => {
-
-  const { username } = req.body;
-  const user = await User.findOne({ username: username });
-
-  if (user) {
-    const followers = await Promise.all(
-      user.followers.map((username) => User.findOne(username))
-    );
-
-    const formattedFollowers = followers.map(
-      ({ first_name, last_name, username }) => {
-        return { first_name, last_name, username };
-      }
-    );
-
-
-
-    res.status(200).json(formatedFollowers);
-  }
-
-};
-
-export const Remove = async (req, res) => {
-  const { username, followers_username } = req.body;
-  const user = await User.findOne({ username: username });
-  const followers_user = await User.findOne({ username: followers_username });
-
-  if (user && followers_user) {
-    user.followers = user.followers.filter((username) => username !== followers_username);
-    followers_user.followings = followers_user.followings.filter((username) => username !== user.username);
-
-    await user.save();
-    await followers_user.save();
-
-    return res.status(200).json(user);
-  }
-
-};
-
-
 export const getAllUsers = async (req, res) => {
   const all_users = await User.find({});
   res.status(200).json(all_users);
@@ -75,18 +34,54 @@ export const updateUserprofile = async (req, res) => {
 
   }
 
+};
 
+export const getUserFollowers = async (req, res) => {
 
-}
-
-export const getUserFollowing = async (req, res) => {
   const { username } = req.body;
   const user = await User.findOne({ username: username });
 
   if (user) {
-    const followings = await Promise.all(
-      user.followings.map((username) => User.findOne(username))
+    const followers = await Promise.all(
+      user.followers)
+
+    const formattedFollowers = followers.map(
+      ({ first_name, last_name, username }) => {
+        return { first_name, last_name, username };
+      }
     );
+
+
+
+    res.status(200).json(formattedFollowers);
+  }
+
+};
+
+export const Remove = async (req, res) => {
+  const { username, followers_username } = req.body;
+  const user = await User.findOne({ username: username });
+  const followers_user = await User.findOne({ username: followers_username });
+
+  if (user && followers_user) {
+    user.followers = user.followers.filter((followers) => followers.username !== followers_username);
+    followers_user.followings = followers_user.followings.filter((followings) => followings.username !== username);
+
+    await user.save();
+    await followers_user.save();
+
+    return res.status(200).json(user);
+  }
+
+};
+
+export const getUserFollowing = async (req, res) => {
+  const { username } = req.body;
+  const user = await User.findOne({ username: username });
+  console.log(user.followings.username)
+
+  if (user) {
+    const followings = user.followings;
     const formattedFollowings = followings.map(
       ({ first_name, last_name, username }) => {
         return { first_name, last_name, username };
@@ -105,8 +100,8 @@ export const Unfollow = async (req, res) => {
   const following_user = await User.findOne({ username: following_username });
 
   if (user && following_user) {
-    user.followings = user.followings.filter((username) => username !== following_username);
-    following_user.followers = following_user.followers.filter((username) => username !== user.username);
+    user.followings = user.followings.filter((followings) => followings.username !== following_username);
+    following_user.followers = following_user.followers.filter((followers) => followers.username !== username);
 
     await user.save();
     await following_user.save();
@@ -121,10 +116,8 @@ export const getPotentialFollowings = async (req, res) => {
 
   if (user) {
     const all_users = await User.find({});
-
-    const potential_followings = all_users.filter((username) => username !== user.followings.username)
-    const potential_followings_1 = potential_followings.filter((username) => username !== user.username)
-    console.log(potential_followings_1)
+    const potential_followings = all_users.filter((tempuser) => user.followings.filter((following) => following.username === tempuser.username).length === 0);
+    const potential_followings_1 = potential_followings.filter((tempuser) => tempuser.username !== username);
     const formattedPotentialFollowings = potential_followings_1.map(
       ({ first_name, last_name, username }) => {
         return { first_name, last_name, username };
@@ -139,20 +132,29 @@ export const getPotentialFollowings = async (req, res) => {
 }
 
 export const Follow = async (req, res) => {
-
   const { username, potential_following_username } = req.body;
   const user = await User.findOne({ username: username });
-  const potential_following_user = await User.findOne({ username: potential_following_username });
+  const following_user = await User.findOne({ username: potential_following_username });
 
-  if (user && potential_following_user) {
-    user.followings.push({ username: potential_following_user.username, first_name: potential_following_user.first_name, last_name: potential_following_user.last_name });
-    potential_following_user.followers.push({ username: user.username, first_name: user.first_name, last_name: user.last_name });
+  if(user && following_user){
+    console.log(user.followings)
+    user.followings.push({
+      first_name: following_user.first_name,
+      last_name: following_user.last_name,
+      username: following_user.username
+    });
+    following_user.followers.push({
+      first_name: user.first_name,
+      last_name: user.last_name,
+      username: user.username
+    });
 
     await user.save();
-    await potential_following_user.save();
+    await following_user.save();
+
+    return res.status(200).json(user);
   }
 
-  res.status(200).json(user);
 }
 
 

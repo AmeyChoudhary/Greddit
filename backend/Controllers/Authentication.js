@@ -27,8 +27,8 @@ export const register = async (req, res) => {
         age,
         followers_num: 0,
         followings_num: 0,
-        followers: {},
-        followings: {},
+        followers: [],
+        followings: [],
         user_description: "Ae Roopali, Pakad meri Daali, Yo Yo bantai Rapper",
     });
     const save_User = await new_User.save();

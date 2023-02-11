@@ -16,4 +16,6 @@ Signout in Navbar
 4. check to give potential followings
 5. error handling
 6. display as list
+7. follow not working
+8. aur display not working
 

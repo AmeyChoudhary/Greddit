@@ -1,12 +1,11 @@
 import express from "express" 
 
 import { getUserFollowers , updateUserprofile, getUserFollowing , getAllUsers, Remove , Unfollow , getPotentialFollowings, Follow} from "../Controllers/User.js";
-import { verifyToken } from "../Middleware/Authentication.js";
+// import { verifyToken } from "../Middleware/Authentication.js";
 
 const router = express.Router();
 
-// router.get("/:id" , verifyToken, getUser);
-// router.get("/:id/followers", verifyToken, getUserFollowers);
+
 router.patch("/updateprofile", updateUserprofile )
 router.post("/followers", getUserFollowers)
 router.post("/followers/remove", Remove)

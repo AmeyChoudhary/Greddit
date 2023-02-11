@@ -111,6 +111,7 @@ const Followers = () => {
             })
         });
         let data = await response.json();
+        console.log(data)
 
         setfollowing(data);
 
@@ -163,15 +164,13 @@ const Followers = () => {
             })
         });
         let data = await response.json();
-        console.log("potential followings data" + data)
+        console.log(data)
         setpotential_followings(data);
 
 
     }
 
     const Follow = async (username, potential_following_username) => {
-        console.log("in follow")
-        // console.log(key)
         const response = await fetch('http://localhost:4000/users/potential_followings/follow', {
             method: 'POST',
             headers: {
@@ -185,9 +184,11 @@ const Followers = () => {
 
         });
         let data = await response.json();
-        console.log(data)
-        console.log("yo")
 
+    }
+
+    const hideButton = (event) => {
+        event.target.style.display = "none";
     }
 
     const [fillActive, setFillActive] = useState("free");
@@ -267,7 +268,7 @@ const Followers = () => {
 
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={() => Remove(user_orginal.username, followers.followers_username)}>
+                                            <MDBBtn color='link' rounded size='sm' onClick={(event) => {Remove(user_orginal.username, followers.followers_username); hideButton(event)}}>
                                                 Remove from Followers
                                             </MDBBtn>
                                         </td>
@@ -283,7 +284,7 @@ const Followers = () => {
                     <MDBTabsPane show={fillActive === 'followings'}>
                         <h3>You are followings the followings:</h3>
                         {/* <MDBBtn color='link' rounded size='sm' onClick={getUserFollowing}>Display followings</MDBBtn> */}
-                        {followings.length > 0 && followings.map((followings) => <div key={followings.username}>
+                        {followings.length > 0 && followings.map(({ followings }) => <div key={followings.username}>
                             <MDBTable align='middle'>
                                 <MDBTableHead>
                                     <tr>
@@ -308,7 +309,7 @@ const Followers = () => {
                                         </td>
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={() => Unfollow(user_orginal.username, followings.following_username)}>
+                                            <MDBBtn color='link' rounded size='sm' onClick={(event) => {Unfollow(user_orginal.username, followings.following_username) ; hideButton(event)}}>
                                                 Unfollow
                                             </MDBBtn>
                                         </td>
@@ -348,25 +349,25 @@ const Followers = () => {
                                         </td>
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={() => Follow(user_orginal.username, potential_followings.username)}>
-                                                Follow
-                                            </MDBBtn>
-                                        </td>
+                                            <MDBBtn color='link' rounded size='sm' onClick={(event) => { Follow(user_orginal.username, potential_followings.username); hideButton(event)}}>
+                                            Follow
+                                        </MDBBtn>
+                                    </td>
 
-                                    </tr>
-                                </MDBTableBody>
+                                </tr>
+                            </MDBTableBody>
 
-                            </MDBTable>
+                        </MDBTable>
                         </div>)}
 
-                    </MDBTabsPane>
+                </MDBTabsPane>
 
 
 
-                </MDBTabsContent>
+            </MDBTabsContent>
 
 
-            </div>
+        </div>
         </>
     )
 }

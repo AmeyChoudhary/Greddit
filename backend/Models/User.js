@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const {ObjectId} = mongoose.Schema.Types;
+
 const UserSchema = new mongoose.Schema({
     first_name: {
         type: String,
@@ -52,16 +54,16 @@ const UserSchema = new mongoose.Schema({
     },
     followers: {
         type: [{
-            first_name: String,
-            last_name: String,
-            followers_username: String ,
+            firstname: String,
+            lastname: String,
+            followers_username: String,
         }], sparse: true
     },
     followings: {
         type: [{
-            first__name: String,
+            firstname: String,
             lastname: String,
-            following_username: String ,
+            followings_username: String,
         }], sparse: true
     },
     user_description: {
