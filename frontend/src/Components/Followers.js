@@ -163,13 +163,15 @@ const Followers = () => {
             })
         });
         let data = await response.json();
-        console.log(data)
+        console.log("potential followings data" + data)
         setpotential_followings(data);
 
 
     }
 
-    const Follow = async (e, username, potential_following_username) => {
+    const Follow = async (username, potential_following_username) => {
+        console.log("in follow")
+        // console.log(key)
         const response = await fetch('http://localhost:4000/users/potential_followings/follow', {
             method: 'POST',
             headers: {
@@ -184,10 +186,8 @@ const Followers = () => {
         });
         let data = await response.json();
         console.log(data)
+        console.log("yo")
 
-        e.target = () => {
-            e.target.disabled = true;
-        };
     }
 
     const [fillActive, setFillActive] = useState("free");
@@ -267,7 +267,7 @@ const Followers = () => {
 
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={Remove(user_orginal.username, followers.followers_username)}>
+                                            <MDBBtn color='link' rounded size='sm' onClick={() => Remove(user_orginal.username, followers.followers_username)}>
                                                 Remove from Followers
                                             </MDBBtn>
                                         </td>
@@ -308,7 +308,7 @@ const Followers = () => {
                                         </td>
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={Unfollow(user_orginal.username, followings.following_username)}>
+                                            <MDBBtn color='link' rounded size='sm' onClick={() => Unfollow(user_orginal.username, followings.following_username)}>
                                                 Unfollow
                                             </MDBBtn>
                                         </td>
@@ -320,10 +320,10 @@ const Followers = () => {
 
                     </MDBTabsPane>
                     <MDBTabsPane show={fillActive === 'people_to_follow'}>
-                        {console.log(potential_followings)}
                         <h3>People to follow:</h3>
                         {/* <MDBBtn color='link' rounded size='sm' onClick={getPotentialFollowings}>Display potential followings</MDBBtn> */}
                         {potential_followings.length > 0 && potential_followings.map((potential_followings) => <div key={potential_followings.username}>
+
                             <MDBTable align='middle'>
                                 <MDBTableHead>
                                     <tr>
@@ -337,7 +337,7 @@ const Followers = () => {
                                         <td>
                                             <div className='d-flex align-items-center'>
                                                 <div className='ms-3'>
-                                                    <p className='fw-bold mb-1'>{potential_followings.first_name + potential_followings.last_name}</p>
+                                                    <p className='fw-bold mb-1'>{potential_followings.first_name + " " + potential_followings.last_name}</p>
 
                                                 </div>
                                             </div>
@@ -348,7 +348,7 @@ const Followers = () => {
                                         </td>
 
                                         <td>
-                                            <MDBBtn color='link' rounded size='sm' onClick={Follow(user_orginal.username, potential_followings.username)}>
+                                            <MDBBtn color='link' rounded size='sm' onClick={() => Follow(user_orginal.username, potential_followings.username)}>
                                                 Follow
                                             </MDBBtn>
                                         </td>

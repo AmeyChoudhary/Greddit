@@ -21,14 +21,14 @@ export const getUserFollowers = async (req, res) => {
     );
 
     const formattedFollowers = followers.map(
-      ({ first_name, last_name, followers_username }) => {
-        return { first_name, last_name, followers_username };
+      ({ first_name, last_name, username }) => {
+        return { first_name, last_name, username };
       }
     );
 
 
 
-    res.status(200).json(followers);
+    res.status(200).json(formatedFollowers);
   }
 
 };
@@ -45,7 +45,7 @@ export const Remove = async (req, res) => {
     await user.save();
     await followers_user.save();
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   }
 
 };
@@ -87,15 +87,15 @@ export const getUserFollowing = async (req, res) => {
     const followings = await Promise.all(
       user.followings.map((username) => User.findOne(username))
     );
-const formattedFollowings = followings.map(
-  ({ first_name, last_name, followings_username }) => {
-    return { first_name, last_name, followings_username };
-  }
-);
+    const formattedFollowings = followings.map(
+      ({ first_name, last_name, username }) => {
+        return { first_name, last_name, username };
+      }
+    );
 
 
 
-res.status(200).json(formattedFollowings);
+    res.status(200).json(formattedFollowings);
   }
 }
 
@@ -111,7 +111,7 @@ export const Unfollow = async (req, res) => {
     await user.save();
     await following_user.save();
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   }
 }
 
@@ -121,12 +121,13 @@ export const getPotentialFollowings = async (req, res) => {
 
   if (user) {
     const all_users = await User.find({});
-    const potential_followings = await Promise.all(
-      all_users.map((user) => !User.findOne({ username: user.followings }))
-    );
-    const formattedPotentialFollowings = potential_followings.map(
-      ({ first_name, last_name, potential_followings_username }) => {
-        return { first_name, last_name, potential_followings_username };
+
+    const potential_followings = all_users.filter((username) => username !== user.followings.username)
+    const potential_followings_1 = potential_followings.filter((username) => username !== user.username)
+    console.log(potential_followings_1)
+    const formattedPotentialFollowings = potential_followings_1.map(
+      ({ first_name, last_name, username }) => {
+        return { first_name, last_name, username };
       }
     );
 
@@ -144,15 +145,14 @@ export const Follow = async (req, res) => {
   const potential_following_user = await User.findOne({ username: potential_following_username });
 
   if (user && potential_following_user) {
-    user.followings.push(potential_following_username);
-    potential_following_user.followers.push(user.username);
+    user.followings.push({ username: potential_following_user.username, first_name: potential_following_user.first_name, last_name: potential_following_user.last_name });
+    potential_following_user.followers.push({ username: user.username, first_name: user.first_name, last_name: user.last_name });
 
     await user.save();
     await potential_following_user.save();
-
-    res.status(200).json(user);
   }
 
+  res.status(200).json(user);
 }
 
 
