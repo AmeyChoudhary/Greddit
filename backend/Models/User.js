@@ -54,16 +54,16 @@ const UserSchema = new mongoose.Schema({
     },
     followers: {
         type: [{
-            firstname: String,
-            lastname: String,
-            followers_username: String,
+            first_name: String,
+            last_name: String,
+            username: String,
         }], sparse: true
     },
     followings: {
         type: [{
-            firstname: String,
-            lastname: String,
-            followings_username: String,
+            first_name: String,
+            last_name: String,
+            username: String,
         }], sparse: true
     },
     user_description: {

@@ -78,10 +78,10 @@ export const Remove = async (req, res) => {
 export const getUserFollowing = async (req, res) => {
   const { username } = req.body;
   const user = await User.findOne({ username: username });
-  console.log(user.followings.username)
 
   if (user) {
-    const followings = user.followings;
+    const followings = await Promise.all(
+      user.followings );
     const formattedFollowings = followings.map(
       ({ first_name, last_name, username }) => {
         return { first_name, last_name, username };

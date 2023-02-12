@@ -123,7 +123,7 @@ const Profile = () => {
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
                       <MDBTypography tag="h6">Following</MDBTypography>
-                      {< MDBBtn className=' mb-3' size='md' id="following_button" onClick={following_func} >{user.following_num}</MDBBtn>}
+                      {< MDBBtn className=' mb-3' size='md' id="following_button" onClick={following_func} >{user.followings_num}</MDBBtn>}
                       </MDBCol>
                       </MDBRow>
                     </MDBCardBody>
