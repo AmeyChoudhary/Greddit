@@ -118,7 +118,6 @@ const FollowersPage = () => {
                             </td>
                             <td>
                                 <p className='fw-normal mb-1'>{followers.username}</p>
-
                             </td>
                             <td>
                                 <MDBBtn color='link' rounded size='sm' onClick={(event) => { Remove(user_orginal.username, followers.username); hideButton(event) }}>

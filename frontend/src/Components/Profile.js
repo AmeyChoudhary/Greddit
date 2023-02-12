@@ -28,10 +28,6 @@ const Profile = () => {
   }, []);
 
 
-  // const Signout = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/auth?mode=login");
-  // };
 
   const followers_func = () => {
     navigate("/profile/followers")
@@ -129,7 +125,7 @@ const Profile = () => {
                       <MDBTypography tag="h6">Following</MDBTypography>
                       {< MDBBtn className=' mb-3' size='md' id="following_button" onClick={following_func} >{user.followings_num}</MDBBtn>}
                       </MDBCol>
-                      {< MDBBtn className='mb-3' size='md' id="followers_button" onClick={potential_following_func} >More People to Follo</MDBBtn>}
+                      {< MDBBtn className='mb-3' size='md' id="followers_button" onClick={potential_following_func} >More People to Follow</MDBBtn>}
                       </MDBRow>
                     </MDBCardBody>
                   </MDBCol>

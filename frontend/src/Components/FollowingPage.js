@@ -93,7 +93,6 @@ const FollowingPage = () => {
                 </div>
             </div>
             <h3>You are following the followings:</h3>
-
             {followings.length > 0 && followings.map((followings) => <div key={followings.username}>
                 <MDBTable align='middle'>
                     <MDBTableHead>
@@ -117,17 +116,11 @@ const FollowingPage = () => {
                                 <p className='fw-normal mb-1'>{followings.username}</p>
 
                             </td>
-
-
                             <td>
                                 <MDBBtn color='link' rounded size='sm' onClick={(event) => { Unfollow(user_orginal.username, followings.username); hideButton(event) }}>
                                     Unfollow
                                 </MDBBtn>
                             </td>
-
-
-
-
                         </tr>
                     </MDBTableBody>
                 </MDBTable>

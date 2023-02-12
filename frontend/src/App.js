@@ -19,17 +19,17 @@ function App() {
             element={
               <Protected children={<Profile />}></Protected>
             }></Route>
-            <Route 
+          <Route
             path="/profile/followers"
             element={
               <Protected children={<FollowersPage />}></Protected>
             }></Route>
-            <Route
+          <Route
             path="/profile/followings"
             element={
               <Protected children={<FollowingPage />}></Protected>
             }></Route>
-            <Route
+          <Route
             path="/profile/potential_followings"
             element={
               <Protected children={<PotentialFollowingPage />}></Protected>
