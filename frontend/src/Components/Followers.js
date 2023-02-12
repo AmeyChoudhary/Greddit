@@ -26,13 +26,14 @@ const Followers = () => {
 
 
     useEffect(() => {
-
+        
         const fetchdata = async () => {
-
+            
             let token = localStorage.getItem("token");
             if (token) {
                 let decoded_user = await jwt(token)
                 Setuser_org(decoded_user)
+                console.log(user_orginal)
             }
             else {
                 navigate("/auth?mode=login")
@@ -75,7 +76,12 @@ const Followers = () => {
             })
         });
         let data = await response.json();
-        console.log(data)
+        
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data.token);
+        
+
+
 
     }
 
@@ -109,7 +115,8 @@ const Followers = () => {
             })
         });
         let data = await response.json();
-        console.log(data)
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data.token);
     }
 
     const getPotentialFollowings = async () => {
@@ -145,7 +152,8 @@ const Followers = () => {
 
         });
         let data = await response.json();
-        console.log(data)
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data.token);
 
     }
 

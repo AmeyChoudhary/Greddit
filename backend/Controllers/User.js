@@ -28,7 +28,7 @@ export const updateUserprofile = async (req, res) => {
 
     await user.save()
 
-    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, following_num: user.following_num, user_description: user.user_description }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, followings_num: user.followings_num, user_description: user.user_description }, process.env.JWT_SECRET);
     delete user.password;
     res.status(200).json({ token });
 
@@ -66,11 +66,18 @@ export const Remove = async (req, res) => {
   if (user && followers_user) {
     user.followers = user.followers.filter((followers) => followers.username !== followers_username);
     followers_user.followings = followers_user.followings.filter((followings) => followings.username !== username);
+    user.followers_num = user.followers.length;
+    followers_user.followings_num = followers_user.followings.length;
 
     await user.save();
     await followers_user.save();
 
-    return res.status(200).json(user);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, followings_num: user.followings_num, user_description: user.user_description }, process.env.JWT_SECRET);
+    delete user.password;
+    res.status(200).json({ token });
+
+
+    // return res.status(200).json(user);
   }
 
 };
@@ -102,11 +109,18 @@ export const Unfollow = async (req, res) => {
   if (user && following_user) {
     user.followings = user.followings.filter((followings) => followings.username !== following_username);
     following_user.followers = following_user.followers.filter((followers) => followers.username !== username);
+    user.followings_num = user.followings.length;
+    following_user.followers_num = following_user.followers.length;
 
     await user.save();
     await following_user.save();
 
-    return res.status(200).json(user);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, followings_num: user.followings_num, user_description: user.user_description }, process.env.JWT_SECRET);
+    delete user.password;
+    res.status(200).json({ token });
+
+
+    // return res.status(200).json(user);
   }
 }
 
@@ -137,7 +151,6 @@ export const Follow = async (req, res) => {
   const following_user = await User.findOne({ username: potential_following_username });
 
   if(user && following_user){
-    console.log(user.followings)
     user.followings.push({
       first_name: following_user.first_name,
       last_name: following_user.last_name,
@@ -149,10 +162,17 @@ export const Follow = async (req, res) => {
       username: user.username
     });
 
+    user.followings_num = user.followings.length;
+    following_user.followers_num = following_user.followers.length;
+
     await user.save();
     await following_user.save();
 
-    return res.status(200).json(user);
+    const token = jwt.sign({ id: user._id, first_name: user.first_name, last_name: user.last_name, email: user.email, username: user.username, contact_number: user.contact_number, age: user.age, followers_num: user.followers_num, followings_num: user.followings_num, user_description: user.user_description }, process.env.JWT_SECRET);
+    delete user.password;
+    res.status(200).json({ token });
+
+    // return res.status(200).json(user);
   }
 
 }

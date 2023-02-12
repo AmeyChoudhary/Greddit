@@ -15,7 +15,6 @@ Signout in Navbar
 1. Age dropdown in register and error handling
 2. What if username and email already in use?
 3. navbar
-4. Followers count
 5. error handling
 6. display as list
 
