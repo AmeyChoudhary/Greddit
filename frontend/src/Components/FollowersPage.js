@@ -99,6 +99,7 @@ const FollowersPage = () => {
             </div>
             <h3>You are being followed by the followings:</h3>
             {followers.length > 0 && followers.map((followers) => <div key={followers.username}>
+
                 <MDBTable align='middle'>
                     <MDBTableHead>
                         <tr>
@@ -127,7 +128,10 @@ const FollowersPage = () => {
                         </tr>
                     </MDBTableBody>
                 </MDBTable>
+
+            
             </div>)}
+            {followers.length === 0 && <h4>Lonely Saala</h4>}
         </div>
     )
 }

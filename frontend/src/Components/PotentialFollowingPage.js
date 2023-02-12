@@ -125,6 +125,7 @@ const PotentialFollowingPage = () => {
                     </MDBTableBody>
                 </MDBTable>
             </div>)}
+            {potential_followings.length === 0 && <h4>Randi Simp</h4>}
         </div>
     )
 }

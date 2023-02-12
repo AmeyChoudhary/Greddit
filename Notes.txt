@@ -16,7 +16,6 @@ Signout in Navbar
 2. What if username and email already in use?
 3. navbar
 5. error handling
-6. display as list
 
 
 
