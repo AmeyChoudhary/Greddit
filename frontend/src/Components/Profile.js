@@ -34,11 +34,15 @@ const Profile = () => {
   // };
 
   const followers_func = () => {
-    navigate("/followers_following")
+    navigate("/profile/followers")
   }
 
   const following_func = () => {
-    navigate("/followers_following")
+    navigate("/profile/followings")
+  }
+
+  const potential_following_func = () => {
+    navigate("/profile/potential_followings")
   }
 
   const edit_profile = async () => {
@@ -125,6 +129,7 @@ const Profile = () => {
                       <MDBTypography tag="h6">Following</MDBTypography>
                       {< MDBBtn className=' mb-3' size='md' id="following_button" onClick={following_func} >{user.followings_num}</MDBBtn>}
                       </MDBCol>
+                      {< MDBBtn className='mb-3' size='md' id="followers_button" onClick={potential_following_func} >More People to Follo</MDBBtn>}
                       </MDBRow>
                     </MDBCardBody>
                   </MDBCol>

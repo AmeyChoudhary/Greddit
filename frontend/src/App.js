@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Authentication from './Components/Authentication';
-import Followers from './Components/Followers';
+import FollowersPage from './Components/FollowersPage';
+import FollowingPage from './Components/FollowingPage';
+import PotentialFollowingPage from './Components/PotentialFollowingPage';
 import Profile from "./Components/Profile";
 import Protected from './Components/Protected';
-
-
-
 
 function App() {
 
@@ -19,13 +18,21 @@ function App() {
             path="/profile"
             element={
               <Protected children={<Profile />}></Protected>
-            }
-
-          />
-          <Route 
-            path="/followers_following"
+            }></Route>
+            <Route 
+            path="/profile/followers"
             element={
-              <Protected children={<Followers />}></Protected>
+              <Protected children={<FollowersPage />}></Protected>
+            }></Route>
+            <Route
+            path="/profile/followings"
+            element={
+              <Protected children={<FollowingPage />}></Protected>
+            }></Route>
+            <Route
+            path="/profile/potential_followings"
+            element={
+              <Protected children={<PotentialFollowingPage />}></Protected>
             }></Route>
           <Route path="/" element={<Authentication />}></Route>
         </Routes>
