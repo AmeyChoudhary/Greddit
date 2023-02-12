@@ -34,11 +34,11 @@ const Profile = () => {
   // };
 
   const followers_func = () => {
-    navigate("/profile/followers_following")
+    navigate("/followers_following")
   }
 
   const following_func = () => {
-    navigate("/profile/followers_following")
+    navigate("/followers_following")
   }
 
   const edit_profile = async () => {
