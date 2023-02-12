@@ -112,7 +112,7 @@ const FollowersPage = () => {
                             <td>
                                 <div className='d-flex align-items-center'>
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>{followers.first_name + followers.last_name}</p>
+                                        <p className='fw-bold mb-1'>{followers.first_name + " " + followers.last_name}</p>
                                     </div>
                                 </div>
                             </td>

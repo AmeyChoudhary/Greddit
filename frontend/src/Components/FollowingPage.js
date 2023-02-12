@@ -107,7 +107,7 @@ const FollowingPage = () => {
                             <td>
                                 <div className='d-flex align-items-center'>
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>{followings.first_name + followings.last_name}</p>
+                                        <p className='fw-bold mb-1'>{followings.first_name + " " + followings.last_name}</p>
 
                                     </div>
                                 </div>
