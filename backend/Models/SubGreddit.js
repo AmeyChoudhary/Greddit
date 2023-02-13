@@ -13,7 +13,12 @@ const SubGredditSchema = new mongoose.Schema({
         trim: true,
     },
     moderator: {
-        type: String,
+        type: [{
+            first_name: String,
+            last_name: String,
+            username: String,
+
+        }],
         required: true,
         trim: true,
     },
