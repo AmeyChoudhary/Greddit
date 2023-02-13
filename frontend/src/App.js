@@ -41,7 +41,7 @@ function App() {
             <Route 
             path="/subgreddit"
             element={
-              <Protected children={<SubGredditPage />}></Protected>
+              <Protected children={<MySubGredditPage />}></Protected>
             }></Route>
             <Route
             path="/subgreddit/create"
@@ -58,7 +58,12 @@ function App() {
             element={
               <Protected children={<AllSubGredditPage />}></Protected>
             }></Route>
-          <Route path="/" element={<Authentication />}></Route>
+            <Route 
+            path="/subgreddit/:subgreddit_name"
+            element={
+              <Protected children={<SubGredditPage />}></Protected>
+            }></Route>
+            <Route path="/" element={<Authentication />}></Route>
         </Routes>
       </Router>
     </>
