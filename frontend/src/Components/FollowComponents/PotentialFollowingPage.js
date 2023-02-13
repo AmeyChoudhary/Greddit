@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';

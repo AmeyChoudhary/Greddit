@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
@@ -7,11 +7,11 @@ import jwt from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 
-const FollowersPage = () => {
+const FollowingPage = () => {
 
     let navigate = useNavigate();
     const [user_orginal, Setuser_org] = useState({});
-    const [followers, setfollowers] = useState({});
+    const [followings, setfollowing] = useState({});
 
     useEffect(() => {
 
@@ -22,7 +22,7 @@ const FollowersPage = () => {
                 let decoded_user = await jwt(token)
                 Setuser_org(decoded_user)
                 console.log(user_orginal)
-                getUserFollowers(decoded_user.username);
+                getUserFollowing(decoded_user.username);
             }
             else {
                 navigate("/auth?mode=login")
@@ -35,9 +35,8 @@ const FollowersPage = () => {
         // eslint-disable-next-line
     }, []);
 
-    const getUserFollowers = async (username) => {
-
-        const response = await fetch('http://localhost:4000/users/followers', {
+    const getUserFollowing = async (username) => {
+        const response = await fetch('http://localhost:4000/users/followings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,11 +47,12 @@ const FollowersPage = () => {
             })
         });
         let data = await response.json();
-        setfollowers(data);
+        setfollowing(data);
+
     }
 
-    const Remove = async (username, followers_username) => {
-        const response = await fetch('http://localhost:4000/users/followers/remove', {
+    const Unfollow = async (username, following_username) => {
+        const response = await fetch('http://localhost:4000/users/followings/unfollow', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,46 +60,40 @@ const FollowersPage = () => {
             },
             body: JSON.stringify({
                 "username": username,
-                "followers_username": followers_username
+                "following_username": following_username
             })
         });
         let data = await response.json();
-
         localStorage.removeItem("token");
         localStorage.setItem("token", data.token);
-
-
-
-
     }
-
 
     const hideButton = (event) => {
         event.target.style.display = "none";
     }
 
     return (
-        <div>
+        <>
             <Navbar></Navbar>
             <div className="d-flex justify-content-center">
                 <div className="btn-group shadow-0" role="group" aria-label="Basic example" >
                     <button
                         type="button"
                         className="  p-4 m-2 btn btn-outline-secondary"
-                        onClick={() => { navigate('/profile/followings') }}>
-                        Followings
+                        onClick={() => { navigate('/profile/followers') }}>
+                        Followers
                     </button>
                     <button
                         type="button"
                         className="  p-4 m-2 btn btn-outline-secondary"
+
                         onClick={() => { navigate('/profile/potential_followings') }} >
                         People To Follow
                     </button>
                 </div>
             </div>
-            <h3>You are being followed by the followings:</h3>
-            {followers.length > 0 && followers.map((followers) => <div key={followers.username}>
-
+            <h3>You are following the followings:</h3>
+            {followings.length > 0 && followings.map((followings) => <div key={followings.username}>
                 <MDBTable align='middle'>
                     <MDBTableHead>
                         <tr>
@@ -113,27 +107,27 @@ const FollowersPage = () => {
                             <td>
                                 <div className='d-flex align-items-center'>
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>{followers.first_name + " " + followers.last_name}</p>
+                                        <p className='fw-bold mb-1'>{followings.first_name + " " + followings.last_name}</p>
+
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <p className='fw-normal mb-1'>{followers.username}</p>
+                                <p className='fw-normal mb-1'>{followings.username}</p>
+
                             </td>
                             <td>
-                                <MDBBtn color='link' rounded size='sm' onClick={(event) => { Remove(user_orginal.username, followers.username); hideButton(event) }}>
-                                    Remove from Followers
+                                <MDBBtn color='link' rounded size='sm' onClick={(event) => { Unfollow(user_orginal.username, followings.username); hideButton(event) }}>
+                                    Unfollow
                                 </MDBBtn>
                             </td>
                         </tr>
                     </MDBTableBody>
                 </MDBTable>
-
-            
             </div>)}
-            {followers.length === 0 && <h4>Lonely Saala</h4>}
-        </div>
+            {followings.length === 0 && <h4>Sigma</h4>}
+        </>
     )
 }
 
-export default FollowersPage
+export default FollowingPage

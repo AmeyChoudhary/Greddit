@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './Routes/Authrouter.js';
 import userRoutes from './Routes/Userrouter.js';
+import SubGredditRoutes from './Routes/SubGredditrouter.js';
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -23,20 +25,7 @@ connection.once('open', () => {
 
 app.use('/auth', authRoutes);
 app.use("/users", userRoutes);
-
-
-
-
-// app.post('/token', async function (req, res) {
-//     // const datas = await User.find({ field: "UserName" })
-
-//     console.log(req.body)
-//     res.json({
-//         Token: "token",
-//     })
-//     // console.log(datas)
-// })
-
+app.use("/subgreddit", SubGredditRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

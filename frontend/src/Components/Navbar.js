@@ -49,7 +49,9 @@ const Navbar = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink >Features</MDBNavbarLink>
+              <MDBNavbarLink active aria-current='page' href='/subgreddit' >My SubGreddit 
+
+              </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
               <MDBNavbarLink disabled  tabIndex={-1} aria-disabled='true'>
