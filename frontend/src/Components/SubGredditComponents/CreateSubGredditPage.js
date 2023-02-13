@@ -109,6 +109,7 @@ const CreateSubGredditPage = () => {
     if (tags.value === "" || tags.value === null) {
       return;
     }
+    tags.value = tags.value.toLowerCase();
     setTags([...tags_list, tags.value]);
     tags.value = "";
   }

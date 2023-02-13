@@ -38,3 +38,24 @@ catch (error) {
 }
 
 }
+
+export const mySubGreddits = async (req, res) => {
+    try {
+        const { username } = req.body;
+        const subGreddits = await SubGreddit.find({ "moderator.username": username });
+        res.status(200).json(subGreddits);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const allSubGreddits = async (req, res) => {
+    try {
+        const subGreddits = await SubGreddit.find();
+        res.status(200).json(subGreddits);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

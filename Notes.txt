@@ -12,10 +12,12 @@ maintian uniform naming pattern
 
 Signout in Navbar
 
-1. Age dropdown in register and error handling
+
 2. What if username and email already in use?
 3. navbar
 5. error handling
+6. delete subgreddit
+7. tags and banned single word
 
 
 
