@@ -19,6 +19,8 @@ Signout in Navbar
 6. delete subgreddit
 7. tags and banned single word
 8. posts comments
+9. delete posts
+10. follow buttons for various posts and subgreddits
 
 
 

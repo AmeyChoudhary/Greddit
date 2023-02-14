@@ -69,7 +69,13 @@ function App() {
             element={
               <Protected children={<CreatePostPage />}></Protected>
             }></Route>
+            <Route
+            path="/subgreddit/:subgreddit_name/users"
+            element={
+              <Protected children={<SubGredditPage />}></Protected>
+            }></Route>
             <Route path="/" element={<Authentication />}></Route>
+            <Route path="*" element={<Authentication />}></Route>
         </Routes>
       </Router>
     </>

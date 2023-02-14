@@ -1,5 +1,6 @@
 import SubGreddit from "../Models/SubGreddit.js";
 
+// in this I have used subGreddit[0] because I am getting an array of objects and I want to access the first object in the array. not findOne or anything else
 export const createSubGreddit = async (req, res) => {
 
     try 
@@ -92,5 +93,27 @@ export const getUserStatus = async (req, res) => {
 export const getSubGredditInfo = async (req, res) => {
     const { subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+    res.status(200).json(subGreddit);
+}
+
+export const LeaveSubGreddit = async (req, res) => {
+    const { username, subgreddit_name } = req.body;
+    const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+    subGreddit.members = subGreddit.members.filter((member) => member.username !== username);
+    await subGreddit.save();
+    subGreddit.members_num = subGreddit.members.length;
+    await subGreddit.save();
+    res.status(200).json(subGreddit);
+}
+
+export const JoinSubGreddit = async (req, res) => {
+    const { user, subgreddit_name } = req.body;
+    const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+    subGreddit[0].requested_user.push({
+        username: user.username,
+        first_name: user.first_name,
+        last_name: user.last_name,
+    });
+    await subGreddit[0].save();
     res.status(200).json(subGreddit);
 }

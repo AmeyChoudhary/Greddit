@@ -67,6 +67,10 @@ const NavbarModerator = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
+              <MDBNavbarLink active aria-current='page' href='/subgreddit/mysubgreddits' >My SubGreddits
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
               <MDBNavbarLink onClick={Signout}>Sign Out</MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>

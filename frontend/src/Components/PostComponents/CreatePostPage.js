@@ -21,6 +21,7 @@ const CreatePostPage = () => {
     let params = useParams();
     const [subGreddit, setSubGreddit] = useState([])
     const [user, setUser] = useState( [])
+    // const [status, setStatus] = useState("")
 
     useEffect(() => {
 
@@ -33,7 +34,29 @@ const CreatePostPage = () => {
             
             if (token) {
                 let decoded_user = await jwt(token)
+                let username = decoded_user.username;
                 setUser(decoded_user);
+
+                let response = await fetch(`http://localhost:4000/subgreddit/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "username": username,
+                        "subgreddit_name": subgreddit_name
+                    }),
+                });
+                let data = await response.json();
+                // console.log(data.status);
+                // setStatus(data.status)
+
+                if(data.status === "member" || data.status === "moderator"){
+                    // navigate("/subgreddit")
+                }
+                else{
+                    navigate("/subgreddit")
+                }
             }
             else {
                 navigate("/auth?mode=login")
@@ -67,28 +90,7 @@ const CreatePostPage = () => {
         var { title, content } = document.forms[0];
     
     
-        // const response = await fetch('http://localhost:4000/auth/register', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-    
-        //     },
-        //     body: JSON.stringify({
-        //         "first_name": first_name.value,
-        //         "last_name": last_name.value,
-        //         "email": email.value,
-        //         "username": username.value,
-        //         "password": password.value,
-        //         "contact_number": contact_number.value,
-        //         "age": age.value,
-        //     })
-        // });
-    
-        // let data = await response.json();
-    
-        // if (data) {
-        //     navigate('/auth?mode=login');
-        // }
+       
 
         console.log(user)
         console.log(subGreddit)
@@ -121,6 +123,7 @@ const CreatePostPage = () => {
             <Navbar />
             <h1>Create Post Page</h1>
 
+            
             <form onChange={enableSubmit} onSubmit={handleSubmit}>
 
                 <MDBContainer fluid className='p-4'>

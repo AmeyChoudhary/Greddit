@@ -17,6 +17,7 @@ const SubGredditPage = () => {
     const [subGreddit, setSubGreddit] = useState([])
     const [posts, setPosts] = useState([])
     const [status, setStatus] = useState("")
+    const [user, setUser] = useState([])
 
     useEffect(() => {
 
@@ -29,6 +30,7 @@ const SubGredditPage = () => {
             if (token) {
                 let decoded_user = await jwt(token)
                 let username = decoded_user.username;
+                setUser(decoded_user)
 
                 let response = await fetch(`http://localhost:4000/subgreddit/status`, {
                     method: 'POST',
@@ -83,14 +85,48 @@ const SubGredditPage = () => {
         setPosts(data);
     }
 
-    const CreatePost = async (e) => {
-        e.preventDefault();
-        navigate(`/subgreddit/${params.subgreddit_name}/createpost`)
+    const CreatePost = async () => {
+        // e.preventDefault();
+        let subgreddit_name = params.subgreddit_name;
+        navigate(`/subgreddit/${subgreddit_name}/createpost`)
     }
-    
+
+    const LeaveSubGreddit = async () => {
+        let subgreddit_name = params.subgreddit_name;
+        let response = await fetch(`http://localhost:4000/subgreddit/leave`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": user.username,
+                "subgreddit_name": subgreddit_name
+            }),
+        });
+        let data = await response.json();
+        console.log(data);
+        setStatus("normal_user")
+    }
+
+    const JoinSubGreddit = async () => {
+        let subgreddit_name = params.subgreddit_name;
+
+        let response = await fetch(`http://localhost:4000/subgreddit/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": user,
+                "subgreddit_name": subgreddit_name
+            }),
+        });
+        let data = await response.json();
+        setStatus("requested")
+
     return (
         <>
-            {status === "moderator" &&
+            {status === "moderator" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
 
@@ -104,9 +140,10 @@ const SubGredditPage = () => {
 
                     </center>
 
+
                     <MDBContainer className="py-5 h-100 " >
 
-                        <div className="d-flex justify-content-center align-items-center h-100">
+                        <div className="d-flex justify-content-evenly align-items-center h-100">
                             {posts.map((post) =>
                                 <div key={post._id}>
 
@@ -126,7 +163,7 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
-                                           
+
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
                                             <MDBCardText>{post.posted_by.username}</MDBCardText>
@@ -138,27 +175,182 @@ const SubGredditPage = () => {
 
                     </MDBContainer>
 
-                    <MDBBtn onClick = {CreatePost}>Create Post</MDBBtn>
+                    <center>
+                        <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
+                    </center>
+
+                </>
+            }
+            {status === "member" && subGreddit[0] &&
+                <>
+                    <Navbar></Navbar>
+                    <center>
+
+                        <h1 >
+                            {subGreddit[0].name}</h1>
+
+                        <p>{subGreddit[0].description}</p>
 
 
+                    </center>
+
+                    <MDBContainer className="py-5 h-100 " >
+
+                        <div className="d-flex justify-content-evenly align-items-evenly h-100">
+                            {posts.map((post) =>
+                                <div key={post._id}>
+
+                                    <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
+                                        <MDBCardHeader className="text-center">
+                                            <MDBCardTitle>{post.title} </MDBCardTitle>
+                                        </MDBCardHeader>
+                                        <MDBCardBody>
+                                            <MDBCardText>
+                                                {post.content}
+                                            </MDBCardText>
+                                            <MDBRow>
+                                                <MDBCol>
+                                                    {post.upvotes} Upvotes
+                                                </MDBCol>
+                                                <MDBCol>
+                                                    {post.downvotes} Downvotes
+                                                </MDBCol>
+                                            </MDBRow>
+
+                                        </MDBCardBody>
+                                        <MDBCardFooter className="text-center">
+                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                        </MDBCardFooter>
+                                    </MDBCard>
+                                </div>
+                            )}
+                        </div>
+
+                    </MDBContainer>
+                    <center>
+                        <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
+                    </center>
+                    {/* leave button */}
+                    <left>
+                        <MDBBtn onClick={LeaveSubGreddit}>Leave Sub Greddit</MDBBtn>
+                    </left>
+
+                </>
+            }
+            {status === "blocked" && subGreddit[0] &&
+                <>
+                    <Navbar></Navbar>
+                    <center>
+                        <h1>You can't view the contents of this sub greddit as you are blocked by the moderator</h1>
+                    </center>
+                </>
+            }
+            {status === "requested" && subGreddit[0] &&
+                <>
+                    <Navbar></Navbar>
+                    <center>
+
+                        <h1 >
+                            {subGreddit[0].name}</h1>
+
+                        <p>{subGreddit[0].description}</p>
 
 
+                    </center>
 
+                    <MDBContainer className="py-5 h-100 " >
+
+                        <div className="d-flex justify-content-evenly align-items-evenly h-100">
+                            {posts.map((post) =>
+                                <div key={post._id}>
+
+                                    <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
+                                        <MDBCardHeader className="text-center">
+                                            <MDBCardTitle>{post.title} </MDBCardTitle>
+                                        </MDBCardHeader>
+                                        <MDBCardBody>
+                                            <MDBCardText>
+                                                {post.content}
+                                            </MDBCardText>
+                                            <MDBRow>
+                                                <MDBCol>
+                                                    {post.upvotes} Upvotes
+                                                </MDBCol>
+                                                <MDBCol>
+                                                    {post.downvotes} Downvotes
+                                                </MDBCol>
+                                            </MDBRow>
+
+                                        </MDBCardBody>
+                                        <MDBCardFooter className="text-center">
+                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                        </MDBCardFooter>
+                                    </MDBCard>
+                                </div>
+                            )}
+                        </div>
+
+                    </MDBContainer>
+
+                    {/* Make button saying request is pending */}
+
+                </>
+            }
+            {status === "normal_user" && subGreddit[0] &&
+                <>
+                    <Navbar></Navbar>
+                    <center>
+
+                        <h1 >
+                            {subGreddit[0].name}</h1>
+
+                        <p>{subGreddit[0].description}</p>
+
+
+                    </center>
+
+                    <MDBContainer className="py-5 h-100 " >
+
+                        <div className="d-flex justify-content-evenly align-items-evenly h-100">
+                            {posts.map((post) =>
+                                <div key={post._id}>
+
+                                    <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
+                                        <MDBCardHeader className="text-center">
+                                            <MDBCardTitle>{post.title} </MDBCardTitle>
+                                        </MDBCardHeader>
+                                        <MDBCardBody>
+                                            <MDBCardText>
+                                                {post.content}
+                                            </MDBCardText>
+                                            <MDBRow>
+                                                <MDBCol>
+                                                    {post.upvotes} Upvotes
+                                                </MDBCol>
+                                                <MDBCol>
+                                                    {post.downvotes} Downvotes
+                                                </MDBCol>
+                                            </MDBRow>
+
+                                        </MDBCardBody>
+                                        <MDBCardFooter className="text-center">
+                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                        </MDBCardFooter>
+                                    </MDBCard>
+                                </div>
+                            )}
+                        </div>
+
+                    </MDBContainer>
+
+                    <left>
+                        <MDBBtn onClick={JoinSubGreddit}>Request to Join this Sub Greddit</MDBBtn>
+                    </left>
+
+                    {/* Make follow button */}
                 </>
 
 
-
-
-            }
-            {status === "member" &&
-                <Navbar></Navbar>
-            }
-            {status === "blocked" &&
-                <Navbar></Navbar>}
-            {status === "requested" &&
-                <Navbar></Navbar>}
-            {status === "normal_user" &&
-                <Navbar></Navbar>
             }
         </>
     )
