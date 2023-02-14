@@ -78,7 +78,11 @@ const SubGredditSchema = new mongoose.Schema({
             reported_against: String,
             concern: String,
         }], sparse: true
+    
+
+    
     },
+}, { timestamps: true
 
 });
 

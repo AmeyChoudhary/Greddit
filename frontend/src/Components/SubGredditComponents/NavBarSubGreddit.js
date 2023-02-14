@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const Navbar = () => {
+const NavbarModerator = () => {
   const [showNav, setShowNav] = useState(false);
 
   let navigate = useNavigate();
@@ -76,4 +76,4 @@ const Navbar = () => {
   );
 }
 
-export default Navbar;
+export default NavbarModerator;

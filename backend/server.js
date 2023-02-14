@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import authRoutes from './Routes/Authrouter.js';
 import userRoutes from './Routes/Userrouter.js';
 import SubGredditRoutes from './Routes/SubGredditrouter.js';
+import PostsRoutes from './Routes/Postsrouter.js';
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,7 @@ connection.once('open', () => {
 app.use('/auth', authRoutes);
 app.use("/users", userRoutes);
 app.use("/subgreddit", SubGredditRoutes);
+app.use("/posts", PostsRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

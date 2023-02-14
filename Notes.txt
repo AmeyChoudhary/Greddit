@@ -18,6 +18,7 @@ Signout in Navbar
 5. error handling
 6. delete subgreddit
 7. tags and banned single word
+8. posts comments
 
 
 
