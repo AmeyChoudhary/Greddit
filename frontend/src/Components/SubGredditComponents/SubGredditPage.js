@@ -122,11 +122,16 @@ const SubGredditPage = () => {
             }),
         });
         let data = await response.json();
-        setStatus("requested")
+        if (data.error) { }
+        else {
+            setStatus("requested")
+        }
 
+    }
+// /moderator
     return (
         <>
-            {status === "moderator" && subGreddit[0] &&
+            {status === "moderator" && subGreddit[0] && 
                 <>
                     <NavbarModerator></NavbarModerator>
 
@@ -181,6 +186,7 @@ const SubGredditPage = () => {
 
                 </>
             }
+
             {status === "member" && subGreddit[0] &&
                 <>
                     <Navbar></Navbar>
@@ -231,9 +237,9 @@ const SubGredditPage = () => {
                         <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
                     </center>
                     {/* leave button */}
-                    <left>
+                    <right>
                         <MDBBtn onClick={LeaveSubGreddit}>Leave Sub Greddit</MDBBtn>
-                    </left>
+                    </right>
 
                 </>
             }
@@ -292,6 +298,10 @@ const SubGredditPage = () => {
 
                     </MDBContainer>
 
+                    <center>
+                        <h3> Request is Pending. Please wait</h3>
+                    </center>
+
                     {/* Make button saying request is pending */}
 
                 </>
@@ -343,9 +353,9 @@ const SubGredditPage = () => {
 
                     </MDBContainer>
 
-                    <left>
+                    <center>
                         <MDBBtn onClick={JoinSubGreddit}>Request to Join this Sub Greddit</MDBBtn>
-                    </left>
+                    </center>
 
                     {/* Make follow button */}
                 </>

@@ -134,12 +134,9 @@ const CreatePostPage = () => {
 
                             <MDBCard className='my-5 '>
                                 <MDBCardBody className='p-5'>
-
                                     <MDBInput wrapperClass='mb-4' label='Title' id='title' type='text' />
                                     <MDBInput wrapperClass='mb-4' label='Content' id='content' type='text' />
                                     <MDBBtn className='w-100 mb-4' size='md' type='submit' id="submit" disabled> Create Post</MDBBtn>
-
-   
                                 </MDBCardBody>
                             </MDBCard>
 

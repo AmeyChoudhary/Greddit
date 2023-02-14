@@ -21,6 +21,8 @@ Signout in Navbar
 8. posts comments
 9. delete posts
 10. follow buttons for various posts and subgreddits
+11. navigate from posts
+12. when no posts
 
 
 

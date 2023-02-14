@@ -11,6 +11,7 @@ import CreateSubGredditPage from './Components/SubGredditComponents/CreateSubGre
 import MySubGredditPage from './Components/SubGredditComponents/MySubGredditPage';
 import AllSubGredditPage from './Components/SubGredditComponents/AllSubGredditPage';
 import CreatePostPage from './Components/PostComponents/CreatePostPage';
+import UserList from './Components/ModeratorComponents/UserList';
 
 function App() {
 
@@ -70,9 +71,9 @@ function App() {
               <Protected children={<CreatePostPage />}></Protected>
             }></Route>
             <Route
-            path="/subgreddit/:subgreddit_name/users"
+            path="/subgreddit/:subgreddit_name/user_list"
             element={
-              <Protected children={<SubGredditPage />}></Protected>
+              <Protected children={<UserList />}></Protected>
             }></Route>
             <Route path="/" element={<Authentication />}></Route>
             <Route path="*" element={<Authentication />}></Route>

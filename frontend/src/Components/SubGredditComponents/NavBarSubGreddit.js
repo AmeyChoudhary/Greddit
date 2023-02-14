@@ -49,7 +49,7 @@ const NavbarModerator = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/:subgreddit_name/users' >Users
+              <MDBNavbarLink active aria-current='page'  href='/subgreddit/' >Users
 
               </MDBNavbarLink>
             </MDBNavbarItem>
