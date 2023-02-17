@@ -12,6 +12,9 @@ import MySubGredditPage from './Components/SubGredditComponents/MySubGredditPage
 import AllSubGredditPage from './Components/SubGredditComponents/AllSubGredditPage';
 import CreatePostPage from './Components/PostComponents/CreatePostPage';
 import UserList from './Components/ModeratorComponents/UserList';
+import JoiningRequests from './Components/ModeratorComponents/Joining_Requests';
+import Stats from './Components/ModeratorComponents/Stats';
+import ReportedPage from './Components/ModeratorComponents/ReportedPage';
 
 function App() {
 
@@ -74,6 +77,22 @@ function App() {
             path="/subgreddit/:subgreddit_name/user_list"
             element={
               <Protected children={<UserList />}></Protected>
+            }></Route>
+            <Route
+            path="/subgreddit/:subgreddit_name/joining_requests"
+            element={
+              <Protected children={<JoiningRequests />}></Protected>
+              // eslint-disable-next-line
+            }></Route>
+            <Route
+            path="/subgreddit/:subgreddit_name/stats"
+            element={
+              <Protected children={<Stats />}></Protected>
+            }></Route>
+            <Route
+            path="/subgreddit/:subgreddit_name/reported"
+            element={
+              <Protected children={<ReportedPage />}></Protected>
             }></Route>
             <Route path="/" element={<Authentication />}></Route>
             <Route path="*" element={<Authentication />}></Route>

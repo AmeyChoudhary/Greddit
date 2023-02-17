@@ -16,10 +16,22 @@ import {
 // eslint-disable-next-line
 
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 
 
 const NavbarModerator = () => {
+
+  const [subgreddit_name, setSubgredditName] = useState("")
+
+  const params = useParams();
+  useEffect (() => {
+    let subgreddit_name = params.subgreddit_name;
+    setSubgredditName(subgreddit_name);
+    // eslint-disable-next-line
+  }, [])
+
   const [showNav, setShowNav] = useState(false);
 
   let navigate = useNavigate();
@@ -49,21 +61,20 @@ const NavbarModerator = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'  href='/subgreddit/' >Users
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/user_list' }>Users Lists
 
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/:subgreddit_name/joining_requests' >Joining Requests
-
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/joining_requests' } >Joining Requests
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/:subgreddit_name/stats' >Stats
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/stats' } >Stats
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/:subgreddit_name/reported_page' >Reported Page
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/reported' } >Reported Page
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
