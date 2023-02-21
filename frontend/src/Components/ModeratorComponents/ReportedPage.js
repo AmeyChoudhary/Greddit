@@ -66,7 +66,9 @@ const Reported_Page = () => {
       }),
     });
     const data = await response.json();
-    setReports(data);
+    // setReports(data);
+    console.log(data)
+    setReports(data.value);
     console.log(reports)
 
   }
@@ -86,10 +88,10 @@ const Reported_Page = () => {
 
       
 
-      <MDBContainer className="py-5 h-100 " >
+      {/* <MDBContainer className="py-5 h-100 " >
 
         <div className="d-flex justify-content-evenly align-items-center h-100">
-          {reports && reports.map((reports) =>
+          {reports.map((reports) =>
             <div key={reports._id}>
               <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
                 <MDBCardHeader className="text-center">
@@ -98,19 +100,19 @@ const Reported_Page = () => {
                 </MDBCardHeader>
                 <MDBCardBody>
                   <MDBCardText>
-                    Post Content: {reports.post_content}
-                  </MDBCardText>
+                    {/* Post Content: {reports.post_content} */}
+                  {/* </MDBCardText>
                   <MDBCardText>
                     Reason: {reports.reason}
                   </MDBCardText>
-                  <MDBRow className="d-flex justify-content-evenly">
+                  <MDBRow className="d-flex justify-content-evenly"> */}
                     {/* <MDBCol>
                       <button className="btn btn-success" onClick={() => AcceptUser(reports.username)}>Accept</button>
                     </MDBCol>
                     <MDBCol>
                       <button className="btn btn-danger" onClick={() => RejectUser(reports.username)}>Reject</button>
                     </MDBCol> */}
-                  </MDBRow>
+                  {/* </MDBRow>
                 </MDBCardBody>
 
               </MDBCard>
@@ -118,7 +120,7 @@ const Reported_Page = () => {
           )}
         </div>
 
-      </MDBContainer>
+      </MDBContainer>  */}
 
     </>
   )
