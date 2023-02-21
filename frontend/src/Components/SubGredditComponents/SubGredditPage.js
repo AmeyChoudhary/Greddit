@@ -131,6 +131,9 @@ const SubGredditPage = () => {
         }
 
     }
+
+    const ReportPost = async (post_id) => {
+    }
 // /moderator
     return (
         <>
@@ -225,10 +228,13 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onCLick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                            </MDBRow>
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                            <MDBCardText>{post.posted_by.username} </MDBCardText>
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>

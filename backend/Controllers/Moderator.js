@@ -1,4 +1,5 @@
 import SubGreddit from "../Models/SubGreddit.js";
+import Reoprts from "../Models/Reports.js";
 
 export const UserList = async (req, res) => {
     const { subgreddit_name } = req.body;
@@ -35,6 +36,12 @@ export const RejectJoiningRequest = async (req, res) => {
     subGreddit[0].requested_user = subGreddit[0].requested_user.filter((user) => user.username !== username);
     await subGreddit[0].save();
     res.status(200).json({ message: "User rejected" });
+}
+
+export const ReportedPosts = async (req, res) => {
+    const { subgreddit_name } = req.body;
+    const reported_posts = await Reoprts.find({ subgreddit_name: subgreddit_name });
+    res.status(200).json(reported_posts);
 }
 
 
