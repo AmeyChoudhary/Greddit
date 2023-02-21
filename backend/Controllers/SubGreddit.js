@@ -99,20 +99,19 @@ export const getSubGredditInfo = async (req, res) => {
 export const LeaveSubGreddit = async (req, res) => {
     const { username, subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
-    subGreddit.members = subGreddit.members.filter((member) => member.username !== username);
-    await subGreddit.save();
-    subGreddit.members_num = subGreddit.members.length;
-    await subGreddit.save();
+    subGreddit[0].members = subGreddit[0].members.filter((member) => member.username !== username);
+    subGreddit[0].members_num = subGreddit[0].members.length;
+    await subGreddit[0].save();
     res.status(200).json(subGreddit);
 }
 
 export const JoinSubGreddit = async (req, res) => {
-    const { user, subgreddit_name } = req.body;
+    const { username, first_name, last_name, subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
     subGreddit[0].requested_user.push({
-        username: user.username,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
     });
     await subGreddit[0].save();
     res.status(200).json(subGreddit);
