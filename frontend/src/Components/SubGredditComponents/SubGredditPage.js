@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom'
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 
-
 const SubGredditPage = () => {
 
     let navigate = useNavigate()
@@ -133,6 +132,10 @@ const SubGredditPage = () => {
     }
 
     const ReportPost = async (post_id) => {
+
+        let subgreddit_name = params.subgreddit_name;
+
+        navigate(`/subgreddit/${subgreddit_name}/reportpost/${post_id}`)
     }
 // /moderator
     return (
@@ -173,6 +176,10 @@ const SubGredditPage = () => {
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
+
+                                            </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -229,7 +236,7 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onCLick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                                <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>

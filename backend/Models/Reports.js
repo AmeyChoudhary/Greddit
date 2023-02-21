@@ -42,5 +42,5 @@ const ReportSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-const Reoprts = mongoose.model("Reports", ReportSchema);
-export default Reoprts;
+const Reports = mongoose.model("Reports", ReportSchema);
+export default Reports;

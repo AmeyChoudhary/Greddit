@@ -26,7 +26,7 @@ Signout in Navbar
 13. mkae follow disable in subgreddit
 14. upvote and downvote
 15. make report button for posts
-16. buttons not showing
+16. get reports and further Actions
 
 
 

@@ -13,6 +13,21 @@ export const getPosts = async (req, res) => {
 
 }
 
+export const getPostbyId = async (req, res) => {
+    const { post_id } = req.body;
+    
+    try {
+
+        const post = await Post.findById(post_id);
+
+        res.status(200).json(post);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+}
+
 export const createPost = async (req, res) => {
     const { title, content, posted_by, subgreddit } = req.body;
     

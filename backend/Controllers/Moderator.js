@@ -1,5 +1,5 @@
 import SubGreddit from "../Models/SubGreddit.js";
-import Reoprts from "../Models/Reports.js";
+import Reports from "../Models/Reports.js";
 
 export const UserList = async (req, res) => {
     const { subgreddit_name } = req.body;
@@ -39,8 +39,11 @@ export const RejectJoiningRequest = async (req, res) => {
 }
 
 export const ReportedPosts = async (req, res) => {
-    const { subgreddit_name } = req.body;
-    const reported_posts = await Reoprts.find({ subgreddit_name: subgreddit_name });
+    const { in_subgreddit } = req.body;
+    const reported_posts = await Reports.find({ in_subgreddit : {
+        name: in_subgreddit
+    } });
+    console.log(reported_posts)
     res.status(200).json(reported_posts);
 }
 

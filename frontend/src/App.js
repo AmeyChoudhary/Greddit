@@ -14,6 +14,7 @@ import CreatePostPage from './Components/PostComponents/CreatePostPage';
 import UserList from './Components/ModeratorComponents/UserList';
 import JoiningRequests from './Components/ModeratorComponents/Joining_Requests';
 import Stats from './Components/ModeratorComponents/Stats';
+import CreateReport from './Components/ReportComponents/CreateReport';
 import ReportedPage from './Components/ModeratorComponents/ReportedPage';
 
 function App() {
@@ -88,6 +89,11 @@ function App() {
             path="/subgreddit/:subgreddit_name/stats"
             element={
               <Protected children={<Stats />}></Protected>
+            }></Route>
+            <Route 
+            path="/subgreddit/:subgreddit_name/reportpost/:post_id"
+            element={
+              <Protected children={<CreateReport />}></Protected>
             }></Route>
             <Route
             path="/subgreddit/:subgreddit_name/reported"

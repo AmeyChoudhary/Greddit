@@ -8,6 +8,7 @@ import userRoutes from './Routes/Userrouter.js';
 import SubGredditRoutes from './Routes/SubGredditrouter.js';
 import PostsRoutes from './Routes/Postsrouter.js';
 import ModeratorRoutes from './Routes/Moderatorrouter.js';
+import ReportRoutes from './Routes/ReportRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use("/users", userRoutes);
 app.use("/subgreddit", SubGredditRoutes);
 app.use("/posts", PostsRoutes);
 app.use("/moderator", ModeratorRoutes);
+app.use("/report", ReportRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
