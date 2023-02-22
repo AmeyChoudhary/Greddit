@@ -50,10 +50,7 @@ export const removesavePost = async (req, res) => {
     const { username, post_id } = req.body;
     try {
         const savedPost = await SavedPost.findOne({ "saved_by.username": username });
-        const index = savedPost.post_id.indexOf(post_id);
-        if (index > -1) {
-            savedPost.post_id.splice(index, 1);
-        }
+        savedPost.post_id = savedPost.post_id.filter((id) => id !== post_id);
         await savedPost.save();
         res.status(200).json(savedPost);
     }

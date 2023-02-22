@@ -162,12 +162,17 @@ const SubGredditPage = () => {
             console.log(data);
     }
 
+    const hideButton = (event) => {
+        event.target.style.display = "none";
+      }
+
 // /moderator
     return (
         <>
             {status === "moderator" && subGreddit[0] && 
                 <>
                     <NavbarModerator></NavbarModerator>
+
 
                     <center>
 
@@ -177,7 +182,9 @@ const SubGredditPage = () => {
                         <p>{subGreddit[0].description}</p>
 
 
+
                     </center>
+                    
 
 
                     <MDBContainer className="py-5 h-100 " >
@@ -204,10 +211,10 @@ const SubGredditPage = () => {
 
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) =>{ ReportPost(post._id); hideButton(event)} } >Report</MDBBtn>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
+                                                <MDBBtn onClick={(event) => {SavedPost(post._id); hideButton(event)} } >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -264,10 +271,10 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) =>{ ReportPost(post._id); hideButton(event)} } >Report</MDBBtn>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
+                                                <MDBBtn onClick={(event) => {SavedPost(post._id); hideButton(event)} } >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>

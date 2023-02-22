@@ -68,6 +68,7 @@ const SavedPosts = () => {
             }),
         });
         let data = await response.json();
+        console.log(data);
         getSavedPost(username);
     }
 
@@ -110,6 +111,10 @@ const SavedPosts = () => {
                 </div>
 
             </MDBContainer>
+
+            {SavedPost.length === 0 && <div className="d-flex justify-content-center align-items-center h-100">
+                <h1>No Saved Posts</h1>
+                </div>}
 
 
 

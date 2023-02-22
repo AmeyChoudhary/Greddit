@@ -29,6 +29,8 @@ Signout in Navbar
 16. reports further Actions
 17. moderator banned keywords ?
 18. disable saved posts button
+19. edge cases like when delte, completely delete
+20. early subgreddits dont have timestamp
 
 
 
