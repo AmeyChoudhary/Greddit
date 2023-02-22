@@ -5,6 +5,24 @@ export const getPosts = async (req, res) => {
     const { subgreddit_name } = req.body;
     try {
         const posts = await Post.find({ "subgreddit.name": subgreddit_name });
+        const subgreddit = await SubGreddit.find({ name: subgreddit_name });
+        const banned_keywords = subgreddit[0].banned_keywords;
+
+        posts.forEach(posts => {
+            banned_keywords.forEach(keyword => {
+                const keyword_pattern = keyword;
+                const keyword_re = new RegExp(keyword_pattern, "gi");
+
+                const replaced = posts.title.replace(keyword_re, "*****");
+                posts.title = replaced;
+                
+
+                const replaced_content = posts.content.replace(keyword_re, "*****");
+                posts.content = replaced_content;
+                
+            });
+
+        });
         res.status(200).json(posts);
     }
     catch (error) {
@@ -15,7 +33,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostbyId = async (req, res) => {
     const { post_id } = req.body;
-    
+
     try {
 
         const post = await Post.findById(post_id);
@@ -30,7 +48,7 @@ export const getPostbyId = async (req, res) => {
 
 export const createPost = async (req, res) => {
     const { title, content, posted_by, subgreddit } = req.body;
-    
+
     try {
         const newPost = new Post({
             title,
@@ -46,7 +64,7 @@ export const createPost = async (req, res) => {
             comments: [],
         });
         const subGreddit = await SubGreddit.find({ name: subgreddit });
-        subGreddit[0].posts.push({ post_id: newPost._id , title: newPost.title});
+        subGreddit[0].posts.push({ post_id: newPost._id, title: newPost.title });
         await subGreddit[0].save();
         subGreddit[0].posts_num = subGreddit[0].posts.length;
         await subGreddit[0].save();

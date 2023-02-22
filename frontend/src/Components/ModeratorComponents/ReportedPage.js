@@ -87,7 +87,7 @@ const Reported_Page = () => {
 
       <MDBContainer className="py-5 h-100 " >
 
-        <div className="d-flex justify-content-evenly align-items-center h-100">
+        <div className="d-flex justify-content-evenly align-items-center h-100 flex-wrap">
           {console.log("From body", reports)}
           {reports && reports.map((report) =>
             <div key={report._id}>

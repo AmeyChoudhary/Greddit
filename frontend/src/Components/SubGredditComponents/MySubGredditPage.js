@@ -86,7 +86,7 @@ const MySubGredditPage = () => {
 
       <MDBContainer className="py-5 h-100 " >
 
-        <div className="d-flex justify-content-evenly align-items-center h-100">
+        <div className="d-flex justify-content-evenly align-items-center h-100 flex-wrap">
           {subGreddits.map((subGreddit) =>
             <div key={subGreddit.name}>
 
