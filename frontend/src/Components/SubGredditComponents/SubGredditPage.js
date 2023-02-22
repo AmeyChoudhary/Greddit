@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 
+
 const SubGredditPage = () => {
 
     let navigate = useNavigate()
@@ -137,6 +138,30 @@ const SubGredditPage = () => {
 
         navigate(`/subgreddit/${subgreddit_name}/reportpost/${post_id}`)
     }
+
+    const SavedPost = async (post_id) => {
+            
+            let subgreddit_name = params.subgreddit_name;
+            let token = localStorage.getItem("token");
+            let decoded_user = await jwt(token)
+            let username = decoded_user.username;
+
+            let response = await fetch(`http://localhost:4000/savepost/savespost`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "username": username,
+                    "post_id": post_id,
+                    "subgreddit_name": subgreddit_name,
+                    
+                }),
+            });
+            let data = await response.json();
+            console.log(data);
+    }
+
 // /moderator
     return (
         <>
@@ -180,6 +205,9 @@ const SubGredditPage = () => {
                                             </MDBRow>
                                             <MDBRow>
                                                 <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                            </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -237,6 +265,9 @@ const SubGredditPage = () => {
                                             </MDBRow>
                                             <MDBRow>
                                                 <MDBBtn onClick={() => ReportPost(post._id) } >Report</MDBBtn>
+                                            </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -302,6 +333,9 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
+                                            </MDBRow>
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
@@ -356,6 +390,9 @@ const SubGredditPage = () => {
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
+                                            </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>

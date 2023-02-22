@@ -73,8 +73,13 @@ const NavbarModerator = () => {
               <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/stats' } >Stats
               </MDBNavbarLink>
             </MDBNavbarItem>
+
             <MDBNavbarItem>
               <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/reported' } >Reported Page
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink active aria-current='page' href='/savedposts' >My Saved Posts
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>

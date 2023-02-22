@@ -54,6 +54,10 @@ const Navbar = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
+              <MDBNavbarLink active aria-current='page' href='/savedposts' >My Saved Posts
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
               <MDBNavbarLink disabled  tabIndex={-1} aria-disabled='true'>
                 Disabled
               </MDBNavbarLink>

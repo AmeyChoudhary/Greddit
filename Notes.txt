@@ -27,6 +27,8 @@ Signout in Navbar
 14. upvote and downvote
 15. make report button for posts
 16. reports further Actions
+17. moderator banned keywords ?
+18. disable saved posts button
 
 
 

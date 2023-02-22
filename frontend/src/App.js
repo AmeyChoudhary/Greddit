@@ -16,6 +16,7 @@ import JoiningRequests from './Components/ModeratorComponents/Joining_Requests';
 import Stats from './Components/ModeratorComponents/Stats';
 import CreateReport from './Components/ReportComponents/CreateReport';
 import ReportedPage from './Components/ModeratorComponents/ReportedPage';
+import SavedPosts from './Components/SavedPosts';
 
 function App() {
 
@@ -99,6 +100,11 @@ function App() {
             path="/subgreddit/:subgreddit_name/reported"
             element={
               <Protected children={<ReportedPage />}></Protected>
+            }></Route>
+            <Route
+            path='/savedposts'
+            element={
+              <Protected children={<SavedPosts />}></Protected>
             }></Route>
             <Route path="/" element={<Authentication />}></Route>
             <Route path="*" element={<Authentication />}></Route>
