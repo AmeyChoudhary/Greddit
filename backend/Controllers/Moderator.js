@@ -41,7 +41,6 @@ export const RejectJoiningRequest = async (req, res) => {
 export const ReportedPosts = async (req, res) => {
     const { in_subgreddit } = req.body;
     const reported_posts = await Reports.find({ "in_subgreddit.name": in_subgreddit });
-    console.log(reported_posts)
     res.status(200).json(reported_posts);
 }
 

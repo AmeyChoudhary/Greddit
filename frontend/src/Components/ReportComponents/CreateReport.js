@@ -123,16 +123,17 @@ const CreatePostPage = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "reported_by": reported_by,
+                "reported_by_username": reported_by,
                 "in_subgreddit": in_subgreddit,
                 "poster": poster,
                 "reported_post": reported_post,
-                "reason": reason_for_report
+                "reason": reason_for_report,
+                "post_content": posts.content
             }),
         });
         let data = await respone.json();
         console.log(data);
-        
+    
 
     }
     

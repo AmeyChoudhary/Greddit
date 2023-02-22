@@ -39,6 +39,11 @@ const ReportSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    post_content: {
+        type: String,
+        required: true,
+        trim: true,
+    }
 
 }, { timestamps: true });
 

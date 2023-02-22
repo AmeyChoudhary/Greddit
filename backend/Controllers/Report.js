@@ -1,7 +1,9 @@
 import Reports from "../Models/Reports.js";
+import User from "../Models/User.js";
 
 export const createReport = async (req, res) => {
-    const { reported_by, in_subgreddit, poster, reported_post, reason } = req.body;
+    const { reported_by_username, in_subgreddit, poster, reported_post, reason , post_content } = req.body;
+    const reported_by = await User.findOne({username:reported_by_username})
     try {
         const newReport = new Reports({
             reported_by: {
@@ -21,6 +23,7 @@ export const createReport = async (req, res) => {
                 post_id: reported_post.post_id,
             },
             reason : reason,
+            post_content: post_content,
         });
         const report = await newReport.save();
         res.status(200).json(report);
@@ -29,3 +32,4 @@ export const createReport = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+

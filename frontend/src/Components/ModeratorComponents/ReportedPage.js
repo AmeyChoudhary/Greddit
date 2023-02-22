@@ -24,8 +24,8 @@ const Reported_Page = () => {
         let decoded_user = await jwt(token)
         let username = decoded_user.username;
 
-        getReports(subgreddit_name);
-
+        await getReports(subgreddit_name);
+        console.log("This is report", reports);
         let response = await fetch(`http://localhost:4000/subgreddit/status`, {
           method: 'POST',
           headers: {
@@ -54,8 +54,6 @@ const Reported_Page = () => {
   }, []);
 
   const getReports = async (subgreddit_name) => {
-    
-
     const response = await fetch(`http://localhost:4000/moderator/reported_posts`, {
       method: 'POST',
       headers: {
@@ -67,10 +65,9 @@ const Reported_Page = () => {
     });
     const data = await response.json();
     // setReports(data);
-    console.log(data)
-    setReports(data.value);
-    console.log(reports)
-
+    // yahan dikkat hain
+    console.log("This is data", data)
+    setReports(data); 
   }
 
 
@@ -88,31 +85,32 @@ const Reported_Page = () => {
 
       
 
-      {/* <MDBContainer className="py-5 h-100 " >
+      <MDBContainer className="py-5 h-100 " >
 
         <div className="d-flex justify-content-evenly align-items-center h-100">
-          {reports.map((reports) =>
-            <div key={reports._id}>
+          {console.log("From body", reports)}
+          {reports && reports.map((report) =>
+            <div key={report._id}>
               <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
                 <MDBCardHeader className="text-center">
-                  <MDBCardTitle>Reported By: {reports.reported_by} </MDBCardTitle>
-                  <MDBCardTitle>User reported: {reports.poster} </MDBCardTitle>
+                  <MDBCardTitle>Reported By: {report.reported_by.username} </MDBCardTitle>
+                  <MDBCardTitle>User reported: {report.poster.username} </MDBCardTitle>
                 </MDBCardHeader>
                 <MDBCardBody>
                   <MDBCardText>
-                    {/* Post Content: {reports.post_content} */}
-                  {/* </MDBCardText>
-                  <MDBCardText>
-                    Reason: {reports.reason}
+                     Post Content: {report.post_content}
                   </MDBCardText>
-                  <MDBRow className="d-flex justify-content-evenly"> */}
-                    {/* <MDBCol>
-                      <button className="btn btn-success" onClick={() => AcceptUser(reports.username)}>Accept</button>
+                  <MDBCardText>
+                    Reason: {report.reason}
+                  </MDBCardText>
+                  <MDBRow className="d-flex justify-content-evenly">
+                    <MDBCol>
+                      {/* <button className="btn btn-success" onClick={() => AcceptUser(report.username)}>Accept</button> */}
                     </MDBCol>
                     <MDBCol>
-                      <button className="btn btn-danger" onClick={() => RejectUser(reports.username)}>Reject</button>
-                    </MDBCol> */}
-                  {/* </MDBRow>
+                      {/* <button className="btn btn-danger" onClick={() => RejectUser(report.username)}>Reject</button> */}
+                    </MDBCol>
+                  </MDBRow>
                 </MDBCardBody>
 
               </MDBCard>
@@ -120,7 +118,7 @@ const Reported_Page = () => {
           )}
         </div>
 
-      </MDBContainer>  */}
+      </MDBContainer> 
 
     </>
   )
