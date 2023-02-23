@@ -1,9 +1,9 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom'
-// import Fuse from 'fuse.js'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import Fuse from 'fuse.js'
 import {
   MDBCard,
   MDBCardBody,
@@ -37,8 +37,17 @@ const AllSubGredditPage = () => {
   }, [])
 
   const [subGreddits, setSubGreddits] = useState([])
-  const [query, setQuery] = useState("")
   const [sort, setSort] = useState("")
+  const [search, setSearch] = useState([] )
+
+  const options = {
+
+    keys: [
+      'name',
+      'description',
+      'banned_keywords',
+    ]
+  }
 
   const allSubGreddits = async () => {
     const response = await fetch('http://localhost:4000/subgreddit/allsubgreddits', {
@@ -49,8 +58,21 @@ const AllSubGredditPage = () => {
     });
     const data = await response.json();
     setSubGreddits(data);
+    setSearch(data)
+     
   }
 
+  const changeResult = (query) => {
+    if(query === ""){
+      setSearch(subGreddits)
+    }
+    else{
+    const fuse = new Fuse(subGreddits, options) 
+    const result = fuse.search(query)
+    setSearch((result.map((item) => item.item)))
+    }
+  }
+  
   return (
     <>
       <Navbar></Navbar>
@@ -74,10 +96,8 @@ const AllSubGredditPage = () => {
 
       <MDBContainer className="py-5 h-100 " >
 
-
-
         <MDBInputGroup>
-          <MDBInput label='Search' onChange={event => setQuery(event.target.value)} />
+          <MDBInput label='Search' onChange={(event) => {changeResult(event.target.value)}} />
           <MDBBtn rippleColor='dark'>
             <MDBIcon icon='search' />
           </MDBBtn>
@@ -116,25 +136,9 @@ const AllSubGredditPage = () => {
 
 
         <div className="d-flex justify-content-evenly align-items-center h-100 flex-wrap">
-          {subGreddits.filter(subGreddit => {
-
-            if (query === '') {
-              return subGreddit;
-            }
-             else if (subGreddit.name.toLowerCase().includes(query.toLowerCase())) {
-              return subGreddit;
-            }
-            else {
-              return null;
-            }
-            // else {
-            //   const fuse = new Fuse(subGreddits, options)
-              
-            //   const result = fuse.search(query)
-            //   return result
-            // }
-
-          }).sort(
+          
+          {       
+          search.sort(
             (a, b) => {
               if (sort === "name_ascending") {
                 return a.name.localeCompare(b.name);
@@ -149,44 +153,44 @@ const AllSubGredditPage = () => {
               }
             }
           )
-          .map((subGreddit) =>
-            <div key={subGreddit.name}>
+            .map((subGreddit) =>
+              <div key={subGreddit.name}>
 
-              <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
-                <MDBCardHeader className="text-center">
-                  <MDBCardTitle>{subGreddit.name}</MDBCardTitle>
-                </MDBCardHeader>
-                <MDBCardBody>
-                  <MDBCardText>
-                    {subGreddit.description}
-                  </MDBCardText>
-                  <MDBRow>
-                    <MDBCol>
-                      {subGreddit.members_num} Members
-                    </MDBCol>
-                    <MDBCol>
-                      {subGreddit.posts_num} Posts
-                    </MDBCol>
-                  </MDBRow>
-                  <MDBCardText>Banned Keywords are:</MDBCardText>
-                  <MDBRow>
-                    {subGreddit.banned_keywords.map((keyword, i) => [
-                      i > 0 && ",",
-                      <MDBCol key={i}>
-                        {keyword}
+                <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
+                  <MDBCardHeader className="text-center">
+                    <MDBCardTitle>{subGreddit.name}</MDBCardTitle>
+                  </MDBCardHeader>
+                  <MDBCardBody>
+                    <MDBCardText>
+                      {subGreddit.description}
+                    </MDBCardText>
+                    <MDBRow>
+                      <MDBCol>
+                        {subGreddit.members_num} Members
                       </MDBCol>
-                    ])}
-                  </MDBRow>
-                </MDBCardBody>
-                <MDBCardFooter className="text-center">
-                  <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
-                </MDBCardFooter>
-              </MDBCard>
-            </div>
+                      <MDBCol>
+                        {subGreddit.posts_num} Posts
+                      </MDBCol>
+                    </MDBRow>
+                    <MDBCardText>Banned Keywords are:</MDBCardText>
+                    <MDBRow>
+                      {subGreddit.banned_keywords.map((keyword, i) => [
+                        i > 0 && ",",
+                        <MDBCol key={i}>
+                          {keyword}
+                        </MDBCol>
+                      ])}
+                    </MDBRow>
+                  </MDBCardBody>
+                  <MDBCardFooter className="text-center">
+                    <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
+                  </MDBCardFooter>
+                </MDBCard>
+              </div>
 
 
 
-          )}
+            )}
         </div>
 
       </MDBContainer>
