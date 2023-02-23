@@ -24,7 +24,7 @@ export const JoiningRequest = async (req, res) => {
 export const AcceptJoiningRequest = async (req, res) => {
     const { subgreddit_name, username, first_name, last_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
-    subGreddit[0].members.push({ first_name, last_name , username });
+    subGreddit[0].members.push({ first_name, last_name, username });
     subGreddit[0].requested_user = subGreddit[0].requested_user.filter((user) => user.username !== username);
     subGreddit[0].members_num = subGreddit[0].members.length;
     await subGreddit[0].save();
@@ -45,19 +45,33 @@ export const ReportedPosts = async (req, res) => {
     res.status(200).json(reported_posts);
 }
 
-export const deleteReportedPost = async (req,res) => {
+export const deleteReportedPost = async (req, res) => {
     const { report_id } = req.body;
-    
+
     try {
         const report = await Reports.findById(report_id);
         const post = await Post.findById(report.reported_post.post_id);
+        const subGreddit = await SubGreddit.find({ name: report.in_subgreddit.name });
         await post.delete();
+        subGreddit[0].posts = subGreddit[0].posts.filter((post) => post.post_id !== report.reported_post.post_id);
+        subGreddit[0].posts_num = subGreddit[0].posts.length;
+        await subGreddit[0].save();
         await Reports.deleteMany({ "reported_post.post_id": post._id });
         res.status(200).json({ message: "Post deleted" });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
     }
+}
+
+export const blockReportedPost = async (req, res) => {
+    const { report_id } = req.body;
+    const report = await Reports.findById(report_id);
+    const post = await Post.findById(report.reported_post.post_id);
+    post.blocked = true;
+    await post.save();
+    res.status(200).json({ message: "Poster blocked" });
+
 }
 
 

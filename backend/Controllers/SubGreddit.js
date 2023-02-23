@@ -1,5 +1,9 @@
 import SubGreddit from "../Models/SubGreddit.js";
 import User from "../Models/User.js";
+import Post from "../Models/Posts.js";
+import Reports from "../Models/Reports.js";
+import SavedPost from "../Models/SavedPosts.js";
+
 
 // in this I have used subGreddit[0] because I am getting an array of objects and I want to access the first object in the array. not findOne or anything else
 export const createSubGreddit = async (req, res) => {
@@ -122,4 +126,20 @@ export const JoinSubGreddit = async (req, res) => {
     });
     await subGreddit[0].save();
     res.status(200).json(subGreddit);
+}
+
+export const deleteSubGreddits = async (req, res) => {
+    const { subgreddit_name } = req.body;
+    const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+
+    const posts = await Post.find({ "subgreddit.name": subgreddit_name });
+    const post_id = posts.map((post) => post._id);
+
+    await SavedPost.deleteMany({ "post_id": { $in: post_id } });
+    await Post.deleteMany({ "subgreddit.name": subgreddit_name });
+    await Reports.deleteMany({ "in_subgreddit.name": subgreddit_name });
+    await subGreddit[0].delete();
+    res.status(200).json(subGreddit);
+
+
 }

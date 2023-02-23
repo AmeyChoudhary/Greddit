@@ -59,6 +59,28 @@ const MySubGredditPage = () => {
     setSubGreddits(data);
   }
 
+  const deleteSubGreddit = async (subGredditName) => {
+
+    const response = await fetch('http://localhost:4000/subgreddit/deletesubgreddit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "subgreddit_name": subGredditName
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    mySubGreddits();
+  }
+
+  const hideButton = (event) => {
+    event.target.style.display = "none";
+  }
+
+
+
 
 
 
@@ -115,19 +137,20 @@ const MySubGredditPage = () => {
                       </MDBCol>
                     ])}
                   </MDBRow>
-              </MDBCardBody>
-              <MDBCardFooter className="text-center">
-                <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
-              </MDBCardFooter>
-            </MDBCard>
+                </MDBCardBody>
+                <MDBCardFooter className="text-center">
+                  <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
+                  <MDBBtn color='danger' onClick={(event) => { deleteSubGreddit(subGreddit.name); hideButton(event) }}>Delete SubGreddit!</MDBBtn>
+                </MDBCardFooter>
+              </MDBCard>
             </div>
 
 
 
           )}
-      </div>
+        </div>
 
-    </MDBContainer>
+      </MDBContainer>
 
 
 

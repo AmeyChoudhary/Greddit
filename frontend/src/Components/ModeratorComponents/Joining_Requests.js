@@ -131,14 +131,16 @@ const JoiningRequests = () => {
                   <MDBCardText>
                     Has Requested to join the subgreddit
                   </MDBCardText>
+                  {edit_access &&
                   <MDBRow className="d-flex justify-content-evenly">
                     <MDBCol>
-                      <button className="btn btn-success" onClick={() => AcceptUser(joining_requests.username, joining_requests.first_name,joining_requests.last_name)} disabled= {!edit_access}>Accept</button>
+                      <button className="btn btn-success" onClick={() => AcceptUser(joining_requests.username, joining_requests.first_name,joining_requests.last_name)}>Accept</button>
                     </MDBCol>
                     <MDBCol>
-                      <button className="btn btn-danger" onClick={() => RejectUser(joining_requests.username)} disabled = {!edit_access}>Reject</button> 
+                      <button className="btn btn-danger" onClick={() => RejectUser(joining_requests.username)} >Reject</button> 
                     </MDBCol> 
                   </MDBRow>
+}
                 </MDBCardBody>
 
               </MDBCard>

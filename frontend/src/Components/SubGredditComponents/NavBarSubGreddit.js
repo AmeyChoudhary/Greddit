@@ -57,37 +57,43 @@ const NavbarModerator = () => {
           <MDBNavbarNav>
             <MDBNavbarItem>
               <MDBNavbarLink active aria-current='page' href='/profile'>
-                Home
+                Home <MDBIcon fas icon="home" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/user_list' }>Users Lists
-
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/user_list' }>
+                Users Lists <MDBIcon fas icon="bars" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/joining_requests' } >Joining Requests
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/joining_requests' } >
+                Joining Requests <MDBIcon fas icon="bars" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/stats' } >Stats
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-
-            <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/reported' } >Reported Page
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/stats' } >
+                Stats <MDBIcon fas icon="signal" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/savedposts' >My Saved Posts
+              <MDBNavbarLink active aria-current='page'  href= {'/subgreddit/' + subgreddit_name + '/reported' } >
+                Reported Page <MDBIcon fas icon="flag" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/mysubgreddits' >My SubGreddits
+              <MDBNavbarLink active aria-current='page' href='/savedposts' >
+                My Saved Posts <MDBIcon fas icon="book" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink onClick={Signout}>Sign Out</MDBNavbarLink>
+              <MDBNavbarLink active aria-current='page' href='/subgreddit/mysubgreddits' >
+                My SubGreddits <MDBIcon fab icon="docker" />
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink onClick={Signout}>
+                Sign Out <MDBIcon fas icon="key" />
+                </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>

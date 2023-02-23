@@ -165,12 +165,48 @@ const SubGredditPage = () => {
         event.target.style.display = "none";
     }
 
+    const FollowPoster = async (poster) => {
+        // new stuff
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        let username = decoded_user.username;
+        const response = await fetch('http://localhost:4000/users/potential_followings/follow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+
+            },
+            body: JSON.stringify({
+                "username": username,
+                "potential_following_username": poster
+            })
+
+        });
+        let data = await response.json();
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data.token);
+    }
+
     // /moderator
     return (
+
+        // Moderator can view user list, edit reported page, edit joining requests, view stats
+        // member can view ul,rp,jr,stats
+        // blocked_user can view ul,rp,jr,stats
+        // requested can view ul,rp,jr,stats
+        // normal user can view ul,rp,jr,stats
+        /* moderator can view post, create, follow */
+        /* member can view post, create, leave, follow */
+        /* blocked_user can view post */
+        /* requested can view post asked to join */
+        /* normal user can view post, can join */
+
         <>
             {status === "moderator" && subGreddit[0] &&
                 <>
+
                     <NavbarModerator></NavbarModerator>
+
 
 
                     <center>
@@ -218,7 +254,8 @@ const SubGredditPage = () => {
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                            <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => {FollowPoster(post.posted_by.username); hideButton(event)}}> Follow</MDBBtn>
+                                            </MDBCardText>
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>
@@ -227,9 +264,19 @@ const SubGredditPage = () => {
 
                     </MDBContainer>
 
+                    {posts.length === 0 &&
+
+                        <center>
+                            <h1>No posts to show</h1>
+                        </center>
+
+                    }
+
                     <center>
                         <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
                     </center>
+
+
 
                 </>
             }
@@ -278,7 +325,11 @@ const SubGredditPage = () => {
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username} </MDBCardText>
+                                            {
+                                                post.blocked === true ? <MDBCardText>Blocked User</MDBCardText> :
+                                                <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => {FollowPoster(post.posted_by.username); hideButton(event)}}> Follow</MDBBtn>
+                                                </MDBCardText>
+                                            }
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>
@@ -286,6 +337,14 @@ const SubGredditPage = () => {
                         </div>
 
                     </MDBContainer>
+
+                    {posts.length === 0 &&
+
+                        <center>
+                            <h1>No posts to show</h1>
+                        </center>
+
+                    }
                     <center>
                         <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
                     </center>
@@ -293,6 +352,8 @@ const SubGredditPage = () => {
                     <right>
                         <MDBBtn onClick={LeaveSubGreddit}>Leave Sub Greddit</MDBBtn>
                     </right>
+
+
 
                 </>
             }
@@ -335,13 +396,16 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+                                            {/* <MDBRow>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                                            </MDBRow>
                                             <MDBRow>
                                                 <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
-                                            </MDBRow>
+                                            </MDBRow> */}
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                            {post.blocked === true ? <MDBCardText>BLOCKED USER</MDBCardText> : <MDBCardText>{post.posted_by.username}</MDBCardText>}
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>
@@ -349,6 +413,14 @@ const SubGredditPage = () => {
                         </div>
 
                     </MDBContainer>
+
+                    {posts.length === 0 &&
+
+                        <center>
+                            <h1>No posts to show</h1>
+                        </center>
+
+                    }
 
                 </>
             }
@@ -387,13 +459,17 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+                                            {/* <MDBRow>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                                            </MDBRow>
                                             <MDBRow>
                                                 <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
-                                            </MDBRow>
+                                            </MDBRow> */}
+
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                            {post.blocked === true ? <MDBCardText>BLOCKED USER</MDBCardText> : <MDBCardText>{post.posted_by.username}</MDBCardText>}
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>
@@ -401,6 +477,14 @@ const SubGredditPage = () => {
                         </div>
 
                     </MDBContainer>
+
+                    {posts.length === 0 &&
+
+                        <center>
+                            <h1>No posts to show</h1>
+                        </center>
+
+                    }
 
                     <center>
                         <h3> Request is Pending. Please wait</h3>
@@ -445,13 +529,17 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+                                            {/* <MDBRow>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                                            </MDBRow>
                                             <MDBRow>
                                                 <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
-                                            </MDBRow>
+                                            </MDBRow> */}
+
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                            {post.blocked === true ? <MDBCardText>BLOCKED USER</MDBCardText> : <MDBCardText>{post.posted_by.username}</MDBCardText>}
                                         </MDBCardFooter>
                                     </MDBCard>
                                 </div>
@@ -459,6 +547,14 @@ const SubGredditPage = () => {
                         </div>
 
                     </MDBContainer>
+
+                    {posts.length === 0 &&
+
+                        <center>
+                            <h1>No posts to show</h1>
+                        </center>
+
+                    }
 
                     <center>
                         <MDBBtn onClick={JoinSubGreddit}>Request to Join this Sub Greddit</MDBBtn>

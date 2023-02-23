@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom'
-
+// import Fuse from 'fuse.js'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import {
@@ -50,8 +50,6 @@ const AllSubGredditPage = () => {
     const data = await response.json();
     setSubGreddits(data);
   }
-
-
 
   return (
     <>
@@ -122,12 +120,19 @@ const AllSubGredditPage = () => {
 
             if (query === '') {
               return subGreddit;
-            } else if (subGreddit.name.toLowerCase().includes(query.toLowerCase())) {
+            }
+             else if (subGreddit.name.toLowerCase().includes(query.toLowerCase())) {
               return subGreddit;
             }
             else {
               return null;
             }
+            // else {
+            //   const fuse = new Fuse(subGreddits, options)
+              
+            //   const result = fuse.search(query)
+            //   return result
+            // }
 
           }).sort(
             (a, b) => {

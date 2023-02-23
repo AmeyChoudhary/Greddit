@@ -150,6 +150,10 @@ export const Follow = async (req, res) => {
   const user = await User.findOne({ username: username });
   const following_user = await User.findOne({ username: potential_following_username });
 
+  // new stuff
+  user.followings = user.followings.filter((followings) => followings.username !== potential_following_username);
+  following_user.followers = following_user.followers.filter((followers) => followers.username !== username);
+
   if(user && following_user){
     user.followings.push({
       first_name: following_user.first_name,
@@ -164,6 +168,10 @@ export const Follow = async (req, res) => {
 
     user.followings_num = user.followings.length;
     following_user.followers_num = following_user.followers.length;
+
+    //new stuff
+    user.followings = user.followings.filter((followings) => followings.username !== username);
+    following_user.followers = following_user.followers.filter((followers) => followers.username !== potential_following_username);
 
     await user.save();
     await following_user.save();

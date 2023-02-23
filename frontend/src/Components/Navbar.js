@@ -43,27 +43,25 @@ const Navbar = () => {
         </MDBNavbarToggler>
         <MDBCollapse navbar show={showNav}>
           <MDBNavbarNav>
-            <MDBNavbarItem>
+            <MDBNavbarItem> 
               <MDBNavbarLink active aria-current='page' href='/profile'>
-                Home
+                Home <MDBIcon fas icon="home" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/subgreddit/mysubgreddits' >My SubGreddit 
-
+              <MDBNavbarLink active aria-current='page' href='/subgreddit/mysubgreddits' >
+                My SubGreddit <MDBIcon fab icon="docker" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='/savedposts' >My Saved Posts
+              <MDBNavbarLink active aria-current='page' href='/savedposts' >
+                My Saved Posts <MDBIcon fas icon="book" />
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink disabled  tabIndex={-1} aria-disabled='true'>
-                Disabled
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink onClick={Signout}>Sign Out</MDBNavbarLink>
+              <MDBNavbarLink onClick={Signout}>
+                Sign Out <MDBIcon fas icon="key" />
+                </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>

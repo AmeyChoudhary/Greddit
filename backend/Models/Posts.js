@@ -51,6 +51,13 @@ const PostSchema = new mongoose.Schema({
         trim: true,
         default: 0,
     },
+    // delete this if gives trouble
+    blocked: {
+        type: Boolean,
+        required: true,
+        trim: true,
+        default: false,
+    }
 
 }, { timestamps: true });
 

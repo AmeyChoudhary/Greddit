@@ -40,9 +40,9 @@ export const savePost = async (req, res) => {
 export const getSavePost = async (req, res) => {
     const { username } = req.body
 
-    const savedposts = await SavedPost.find({ "saved_by.username": username })
+    const savedposts = await SavedPost.findOne({ "saved_by.username": username })
 
-    const savedPost = await Post.find({ _id: savedposts[0].post_id })
+    const savedPost = await Post.find({ _id: savedposts.post_id })
     res.status(200).json(savedPost)
 }
 

@@ -76,7 +76,6 @@ const Reported_Page = () => {
     setReports(data); 
   }
 
-
   const IgnoreReport = async (report_id) => {
     
     let button_d  = document.getElementById("delete")
@@ -106,9 +105,23 @@ const Reported_Page = () => {
     
   }
 
-
   const hideButton = (event) => {
     event.target.style.display = "none";
+  }
+
+  const BlockPost = async (report_id) => {
+    const response = await fetch(`http://localhost:4000/moderator/blockreportedpost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "report_id": report_id
+      }),
+    });
+    const data = await response.json();
+    console.log(data)
+    reports.filter((report) => report.report_id !== report_id)
   }
 
 
@@ -116,9 +129,7 @@ const Reported_Page = () => {
     <>
       <NavbarModerator></NavbarModerator>
       <>The following Reports have been made: </>
-
-      
-
+      <br></br>
       <MDBContainer className="py-5 h-100 " >
 
         <div className="d-flex justify-content-evenly align-items-center h-100 flex-wrap">
@@ -137,18 +148,27 @@ const Reported_Page = () => {
                     Reason: {report.reason}
                   </MDBCardText>
 
+                  { edit_access &&
+
                   <MDBRow className="d-flex justify-content-around">
                     <MDBCol>
-                      <button className="btn btn-success" id="ignore" onClick={() => IgnoreReport(report._id)} disabled={!edit_access}>Ignore</button>
+                      <button className="btn btn-success" id="ignore" onClick={() => IgnoreReport(report._id)} >Ignore</button>
                     </MDBCol>
                     <MDBCol>
-                      <button className="btn btn-danger"  id="delete" onClick={(event) => {DeletePost(report._id) ; hideButton(event)}} disabled={!edit_access}>Delete</button>
+                      <button className="btn btn-danger"  id="delete" onClick={(event) => {DeletePost(report._id) ; hideButton(event)}}>Delete</button>
                     </MDBCol>
                   </MDBRow>
+}
+
                 </MDBCardBody>
+                { edit_access &&
                 <MDBCardFooter className="text-muted text-center">
-                  <MDBBtn id="block" disabled ={!edit_access}> Block User </MDBBtn>
+  
+                  <MDBBtn id="block" onClick={(event) => {BlockPost(report._id); hideButton(event)}}> Block User </MDBBtn>
+                
                 </MDBCardFooter>
+}
+
 
 
               </MDBCard>
