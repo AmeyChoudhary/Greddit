@@ -51,7 +51,7 @@ const CreatePostPage = () => {
                 // console.log(data.status);
                 // setStatus(data.status)
 
-                if(data.status === "member" || data.status === "moderator"){
+                if(data.status === "member" || data.status === "moderator" ){
                     // navigate("/subgreddit")
                 }
                 else{

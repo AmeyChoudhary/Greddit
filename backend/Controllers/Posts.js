@@ -35,8 +35,9 @@ export const getPostbyId = async (req, res) => {
     const { post_id } = req.body;
 
     try {
-
+        console.log(post_id)
         const post = await Post.findById(post_id);
+        
 
         res.status(200).json(post);
     }

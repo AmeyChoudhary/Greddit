@@ -133,6 +133,8 @@ const CreatePostPage = () => {
         });
         let data = await respone.json();
         console.log(data);
+
+        alert("Post has been reported")
     
 
     }

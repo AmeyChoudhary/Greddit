@@ -1,5 +1,6 @@
 import SubGreddit from "../Models/SubGreddit.js";
 import Reports from "../Models/Reports.js";
+import Post from "../Models/Posts.js"
 
 export const UserList = async (req, res) => {
     const { subgreddit_name } = req.body;
@@ -42,6 +43,21 @@ export const ReportedPosts = async (req, res) => {
     const { in_subgreddit } = req.body;
     const reported_posts = await Reports.find({ "in_subgreddit.name": in_subgreddit });
     res.status(200).json(reported_posts);
+}
+
+export const deleteReportedPost = async (req,res) => {
+    const { report_id } = req.body;
+    
+    try {
+        const report = await Reports.findById(report_id);
+        const post = await Post.findById(report.reported_post.post_id);
+        await post.delete();
+        await Reports.deleteMany({ "reported_post.post_id": post._id });
+        res.status(200).json({ message: "Post deleted" });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
 
 

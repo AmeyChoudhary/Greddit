@@ -1,5 +1,8 @@
 import Reports from "../Models/Reports.js";
 import User from "../Models/User.js";
+import SubGreddit from "../Models/SubGreddit.js";
+import Post from "../Models/Posts.js";
+
 
 export const createReport = async (req, res) => {
     const { reported_by_username, in_subgreddit, poster, reported_post, reason , post_content } = req.body;
@@ -20,7 +23,7 @@ export const createReport = async (req, res) => {
                 username: poster.username,
             },
             reported_post: {
-                post_id: reported_post.post_id,
+                post_id: reported_post,
             },
             reason : reason,
             post_content: post_content,
@@ -32,4 +35,6 @@ export const createReport = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+
 

@@ -20,10 +20,10 @@ Signout in Navbar
 7. tags and banned single word
 8. posts comments
 9. delete posts
+ user status, blocked and banned 
 10. follow buttons for various posts and subgreddits
 11. navigate from posts
 12. when no posts
-13. mkae follow disable in subgreddit
 14. upvote and downvote
 15. make report button for posts
 16. reports further Actions
@@ -31,6 +31,8 @@ Signout in Navbar
 18. disable saved posts button
 19. edge cases like when delte, completely delete
 20. early subgreddits dont have timestamp
+21. post count
+22. requested and normal cant post
 
 
 

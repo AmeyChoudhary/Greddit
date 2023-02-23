@@ -12,6 +12,7 @@ const JoiningRequests = () => {
   const navigate = useNavigate();
 
   const [joining_requests, setJoining_requests] = useState();
+  const [edit_access, setEdit] = useState(false);
 
   useEffect(() => {
 
@@ -38,6 +39,11 @@ const JoiningRequests = () => {
         });
         let data = await response.json();
         if (data.status === "moderator") {
+          setEdit(true)
+        }
+        else if ( data.status === "member" || data.status === "blocked" || data.status === "requested" || data.status === "normal_user"){
+          setEdit(false)
+
         }
         else {
           navigate("/subgreddit")
@@ -127,10 +133,10 @@ const JoiningRequests = () => {
                   </MDBCardText>
                   <MDBRow className="d-flex justify-content-evenly">
                     <MDBCol>
-                      <button className="btn btn-success" onClick={() => AcceptUser(joining_requests.username, joining_requests.first_name,joining_requests.last_name)}>Accept</button>
+                      <button className="btn btn-success" onClick={() => AcceptUser(joining_requests.username, joining_requests.first_name,joining_requests.last_name)} disabled= {!edit_access}>Accept</button>
                     </MDBCol>
                     <MDBCol>
-                      <button className="btn btn-danger" onClick={() => RejectUser(joining_requests.username)}>Reject</button> 
+                      <button className="btn btn-danger" onClick={() => RejectUser(joining_requests.username)} disabled = {!edit_access}>Reject</button> 
                     </MDBCol> 
                   </MDBRow>
                 </MDBCardBody>

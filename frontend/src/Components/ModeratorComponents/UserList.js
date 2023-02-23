@@ -45,7 +45,7 @@ const UserList = () => {
         // setStatus(data.status)
         // console.log(status)
 
-        if (data.status === "moderator") {
+        if (data.status === "moderator" || data.status === "member" || data.status === "blocked" || data.status === "requested" || data.status === "normal_user") {
         }
         else {
           navigate("/subgreddit")

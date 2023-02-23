@@ -2,7 +2,6 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import NavbarModerator from './NavBarSubGreddit'
-import Navbar from '../Navbar'
 import jwt from 'jwt-decode'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -106,7 +105,7 @@ const SubGredditPage = () => {
         let data = await response.json();
         console.log(data);
         setStatus("normal_user")
-        
+
     }
 
     const JoinSubGreddit = async () => {
@@ -140,36 +139,36 @@ const SubGredditPage = () => {
     }
 
     const SavedPost = async (post_id) => {
-            
-            let subgreddit_name = params.subgreddit_name;
-            let token = localStorage.getItem("token");
-            let decoded_user = await jwt(token)
-            let username = decoded_user.username;
 
-            let response = await fetch(`http://localhost:4000/savepost/savespost`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "username": username,
-                    "post_id": post_id,
-                    "subgreddit_name": subgreddit_name,
-                    
-                }),
-            });
-            let data = await response.json();
-            console.log(data);
+        let subgreddit_name = params.subgreddit_name;
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        let username = decoded_user.username;
+
+        let response = await fetch(`http://localhost:4000/savepost/savespost`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": username,
+                "post_id": post_id,
+                "subgreddit_name": subgreddit_name,
+
+            }),
+        });
+        let data = await response.json();
+        console.log(data);
     }
 
     const hideButton = (event) => {
         event.target.style.display = "none";
-      }
+    }
 
-// /moderator
+    // /moderator
     return (
         <>
-            {status === "moderator" && subGreddit[0] && 
+            {status === "moderator" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
 
@@ -184,7 +183,7 @@ const SubGredditPage = () => {
 
 
                     </center>
-                    
+
 
 
                     <MDBContainer className="py-5 h-100 " >
@@ -211,10 +210,10 @@ const SubGredditPage = () => {
 
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) =>{ ReportPost(post._id); hideButton(event)} } >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) => {SavedPost(post._id); hideButton(event)} } >Save</MDBBtn>
+                                                <MDBBtn onClick={(event) => { SavedPost(post._id); hideButton(event) }} >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -237,7 +236,7 @@ const SubGredditPage = () => {
 
             {status === "member" && subGreddit[0] &&
                 <>
-                    <Navbar></Navbar>
+                    <NavbarModerator></NavbarModerator>
                     <center>
 
                         <h1 >
@@ -271,10 +270,10 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) =>{ ReportPost(post._id); hideButton(event)} } >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) => {SavedPost(post._id); hideButton(event)} } >Save</MDBBtn>
+                                                <MDBBtn onClick={(event) => { SavedPost(post._id); hideButton(event) }} >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -299,15 +298,11 @@ const SubGredditPage = () => {
             }
             {status === "blocked" && subGreddit[0] &&
                 <>
-                    <Navbar></Navbar>
+                    <NavbarModerator></NavbarModerator>
                     <center>
-                        <h1>You can't view the contents of this sub greddit as you are blocked by the moderator</h1>
+                        <h1>You can't join this sub greddit as you are blocked by the moderator</h1>
                     </center>
-                </>
-            }
-            {status === "requested" && subGreddit[0] &&
-                <>
-                    <Navbar></Navbar>
+
                     <center>
 
                         <h1 >
@@ -341,7 +336,59 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
+                                                <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
+                                            </MDBRow>
+
+                                        </MDBCardBody>
+                                        <MDBCardFooter className="text-center">
+                                            <MDBCardText>{post.posted_by.username}</MDBCardText>
+                                        </MDBCardFooter>
+                                    </MDBCard>
+                                </div>
+                            )}
+                        </div>
+
+                    </MDBContainer>
+
+                </>
+            }
+            {status === "requested" && subGreddit[0] &&
+                <>
+                    <NavbarModerator></NavbarModerator>
+                    <center>
+
+                        <h1 >
+                            {subGreddit[0].name}</h1>
+
+                        <p>{subGreddit[0].description}</p>
+
+
+                    </center>
+
+                    <MDBContainer className="py-5 h-100 " >
+
+                        <div className="d-flex justify-content-evenly align-items-evenly h-100 flex-wrap">
+                            {posts.map((post) =>
+                                <div key={post._id}>
+
+                                    <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
+                                        <MDBCardHeader className="text-center">
+                                            <MDBCardTitle>{post.title} </MDBCardTitle>
+                                        </MDBCardHeader>
+                                        <MDBCardBody>
+                                            <MDBCardText>
+                                                {post.content}
+                                            </MDBCardText>
+                                            <MDBRow>
+                                                <MDBCol>
+                                                    {post.upvotes} Upvotes
+                                                </MDBCol>
+                                                <MDBCol>
+                                                    {post.downvotes} Downvotes
+                                                </MDBCol>
+                                            </MDBRow>
+                                            <MDBRow>
+                                                <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>
@@ -365,7 +412,7 @@ const SubGredditPage = () => {
             }
             {status === "normal_user" && subGreddit[0] &&
                 <>
-                    <Navbar></Navbar>
+                    <NavbarModerator></NavbarModerator>
                     <center>
 
                         <h1 >
@@ -399,7 +446,7 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             <MDBRow>
-                                                <MDBBtn onClick={() => SavedPost(post._id) } >Save</MDBBtn>
+                                                <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
                                             </MDBRow>
 
                                         </MDBCardBody>

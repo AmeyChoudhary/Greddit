@@ -1,4 +1,5 @@
 import SubGreddit from "../Models/SubGreddit.js";
+import User from "../Models/User.js";
 
 // in this I have used subGreddit[0] because I am getting an array of objects and I want to access the first object in the array. not findOne or anything else
 export const createSubGreddit = async (req, res) => {
@@ -99,8 +100,14 @@ export const getSubGredditInfo = async (req, res) => {
 export const LeaveSubGreddit = async (req, res) => {
     const { username, subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+    const user = await User.findOne({ username: username });
     subGreddit[0].members = subGreddit[0].members.filter((member) => member.username !== username);
     subGreddit[0].members_num = subGreddit[0].members.length;
+    subGreddit[0].blocked_users.push({
+        username: username,
+        first_name: user.first_name,
+        last_name: user.last_name,
+    })
     await subGreddit[0].save();
     res.status(200).json(subGreddit);
 }

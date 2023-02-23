@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import jwt from 'jwt-decode';
 import NavbarModerator from '../SubGredditComponents/NavBarSubGreddit';
-import { MDBContainer, MDBCard, MDBCardHeader, MDBCardTitle, MDBCardBody, MDBCardText } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCard, MDBCardHeader, MDBCardTitle, MDBCardBody, MDBCardText, MDBCardFooter, MDBBtn } from 'mdb-react-ui-kit';
 import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 
 const Reported_Page = () => {
@@ -12,6 +12,8 @@ const Reported_Page = () => {
   const navigate = useNavigate();
 
   const [reports, setReports] = useState([]);
+  const [edit_access, setEdit] = useState(false);
+
 
   useEffect(() => {
 
@@ -25,7 +27,7 @@ const Reported_Page = () => {
         let username = decoded_user.username;
 
         await getReports(subgreddit_name);
-        console.log("This is report", reports);
+        // console.log("This is report", reports);
         let response = await fetch(`http://localhost:4000/subgreddit/status`, {
           method: 'POST',
           headers: {
@@ -38,6 +40,10 @@ const Reported_Page = () => {
         });
         let data = await response.json();
         if (data.status === "moderator") {
+          setEdit(true)
+        }
+        else if ( data.status === "member" || data.status === "blocked" || data.status === "requested" || data.status === "normal_user"){
+          setEdit(false)
         }
         else {
           navigate("/subgreddit")
@@ -66,15 +72,43 @@ const Reported_Page = () => {
     const data = await response.json();
     // setReports(data);
     // yahan dikkat hain
-    console.log("This is data", data)
+    // console.log("This is data", data)
     setReports(data); 
   }
 
 
-  const AcceptUser = async (username, first_name, last_name) => {
+  const IgnoreReport = async (report_id) => {
+    
+    let button_d  = document.getElementById("delete")
+    button_d.disabled = "none";
+
+    let button_b = document.getElementById("block")
+    button_b.disabled = "none";
+
   }
 
-  const RejectUser = async (username) => {
+  const DeletePost = async (report_id) => {
+
+    const response = await fetch(`http://localhost:4000/moderator/deletereportedpost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "report_id": report_id
+      }),
+    });
+    const data = await response.json();
+    console.log("This is data", data)
+    reports.filter((report) => report.report_id !== report_id)
+
+
+    
+  }
+
+
+  const hideButton = (event) => {
+    event.target.style.display = "none";
   }
 
 
@@ -88,7 +122,6 @@ const Reported_Page = () => {
       <MDBContainer className="py-5 h-100 " >
 
         <div className="d-flex justify-content-evenly align-items-center h-100 flex-wrap">
-          {console.log("From body", reports)}
           {reports && reports.map((report) =>
             <div key={report._id}>
               <MDBCard className="shadow-0" style={{ maxWidth: '22rem' }}>
@@ -103,15 +136,20 @@ const Reported_Page = () => {
                   <MDBCardText>
                     Reason: {report.reason}
                   </MDBCardText>
-                  <MDBRow className="d-flex justify-content-evenly">
+
+                  <MDBRow className="d-flex justify-content-around">
                     <MDBCol>
-                      {/* <button className="btn btn-success" onClick={() => AcceptUser(report.username)}>Accept</button> */}
+                      <button className="btn btn-success" id="ignore" onClick={() => IgnoreReport(report._id)} disabled={!edit_access}>Ignore</button>
                     </MDBCol>
                     <MDBCol>
-                      {/* <button className="btn btn-danger" onClick={() => RejectUser(report.username)}>Reject</button> */}
+                      <button className="btn btn-danger"  id="delete" onClick={(event) => {DeletePost(report._id) ; hideButton(event)}} disabled={!edit_access}>Delete</button>
                     </MDBCol>
                   </MDBRow>
                 </MDBCardBody>
+                <MDBCardFooter className="text-muted text-center">
+                  <MDBBtn id="block" disabled ={!edit_access}> Block User </MDBBtn>
+                </MDBCardFooter>
+
 
               </MDBCard>
             </div>
