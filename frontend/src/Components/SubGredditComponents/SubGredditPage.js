@@ -140,6 +140,10 @@ const SubGredditPage = () => {
 
     }
 
+    const JoinSubGredditBlocked = async () => {
+        alert("You are blocked from this subgreddit")
+    }
+
     const ReportPost = async (post_id) => {
 
         let subgreddit_name = params.subgreddit_name;
@@ -434,7 +438,7 @@ const SubGredditPage = () => {
 
                     }
                     <center>
-                    <MDBBtn onClick={toggleShow}>Create Post</MDBBtn>
+                        <MDBBtn onClick={toggleShow}>Create Post</MDBBtn>
                         <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
                             <MDBModalDialog>
                                 <MDBModalContent>
@@ -472,10 +476,6 @@ const SubGredditPage = () => {
                     </left>
 
                     <center>
-                        <h1>You can't join this sub greddit as you are blocked by the moderator</h1>
-                    </center>
-
-                    <center>
 
                         <h1 >
                             {subGreddit[0].name}</h1>
@@ -484,6 +484,8 @@ const SubGredditPage = () => {
 
 
                     </center>
+
+                    <h2> You have been blocked by the moderator</h2>
 
                     <MDBContainer className="py-5 h-100 " >
 
@@ -508,11 +510,12 @@ const SubGredditPage = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                             {/* <MDBRow>
-                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
-                                            </MDBRow>
-                                            <MDBRow>
-                                                <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
-                                            </MDBRow> */}
+                            <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                        </MDBRow>
+                        <MDBRow>
+                            <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
+                        </MDBRow> */}
+
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
@@ -532,6 +535,10 @@ const SubGredditPage = () => {
                         </center>
 
                     }
+
+                    <center>
+                        <MDBBtn onClick={JoinSubGredditBlocked}>Request to Join this Sub Greddit</MDBBtn>
+                    </center>
 
                 </>
             }
@@ -681,8 +688,6 @@ const SubGredditPage = () => {
 
                     {/* Make follow button */}
                 </>
-
-
             }
         </>
     )

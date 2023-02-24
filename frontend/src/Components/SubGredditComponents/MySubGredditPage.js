@@ -152,6 +152,8 @@ const MySubGredditPage = () => {
           )}
         </div>
 
+        {subGreddits.length === 0 && <h3>You are not the moderator of any subgreddit</h3>}
+
       </MDBContainer>
 
 

@@ -207,6 +207,8 @@ const AllSubGredditPage = () => {
 
       </MDBContainer>
 
+      {subGreddits.length === 0 && <div className="d-flex justify-content-center"> <h1> No SubGreddits to show </h1> </div>}
+
     </>
   )
 }

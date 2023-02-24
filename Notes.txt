@@ -22,8 +22,6 @@ Signout in Navbar
 23. cancel blocking
 	timer 
 filter
-create post dialog box
-alert box fr coming back
 25. dockerization
 
 
