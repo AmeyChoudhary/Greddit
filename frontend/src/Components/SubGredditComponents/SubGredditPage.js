@@ -6,6 +6,15 @@ import jwt from 'jwt-decode'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import {
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
+  } from 'mdb-react-ui-kit';
 
 
 
@@ -187,6 +196,12 @@ const SubGredditPage = () => {
         localStorage.setItem("token", data.token);
     }
 
+    const [basicModal, setBasicModal] = useState(false);
+
+    const toggleShow = () => setBasicModal(!basicModal);
+
+
+
     // /moderator
     return (
 
@@ -202,10 +217,15 @@ const SubGredditPage = () => {
         /* normal user can view post, can join */
 
         <>
+        
             {status === "moderator" && subGreddit[0] &&
                 <>
 
                     <NavbarModerator></NavbarModerator>
+                    <>
+                    <left>
+                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                    </left>
 
 
 
@@ -219,6 +239,7 @@ const SubGredditPage = () => {
 
 
                     </center>
+                    </>
 
 
 
@@ -274,6 +295,7 @@ const SubGredditPage = () => {
 
                     <center>
                         <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
+                        
                     </center>
 
 
@@ -284,6 +306,10 @@ const SubGredditPage = () => {
             {status === "member" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
+                    <left>
+                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                    </left>
+
                     <center>
 
                         <h1 >
@@ -360,6 +386,10 @@ const SubGredditPage = () => {
             {status === "blocked" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
+                    <left>
+                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                    </left>
+
                     <center>
                         <h1>You can't join this sub greddit as you are blocked by the moderator</h1>
                     </center>
@@ -427,6 +457,10 @@ const SubGredditPage = () => {
             {status === "requested" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
+                    <left>
+                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                    </left>
+
                     <center>
 
                         <h1 >
@@ -497,6 +531,10 @@ const SubGredditPage = () => {
             {status === "normal_user" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
+                    <left>
+                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                    </left>
+
                     <center>
 
                         <h1 >

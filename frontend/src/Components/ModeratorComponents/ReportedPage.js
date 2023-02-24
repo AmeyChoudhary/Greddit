@@ -13,6 +13,7 @@ const Reported_Page = () => {
 
   const [reports, setReports] = useState([]);
   const [edit_access, setEdit] = useState(false);
+  
 
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Reported_Page = () => {
         if (data.status === "moderator") {
           setEdit(true)
         }
-        else if ( data.status === "member" || data.status === "blocked" || data.status === "requested" || data.status === "normal_user"){
+        else if (data.status === "member" || data.status === "blocked" || data.status === "requested" || data.status === "normal_user") {
           setEdit(false)
         }
         else {
@@ -73,16 +74,46 @@ const Reported_Page = () => {
     // setReports(data);
     // yahan dikkat hain
     // console.log("This is data", data)
-    setReports(data); 
+    setReports(data);
+
+    
+
   }
 
   const IgnoreReport = async (report_id) => {
-    
-    let button_d  = document.getElementById("delete")
-    button_d.disabled = "none";
 
-    let button_b = document.getElementById("block")
-    button_b.disabled = "none";
+    const response = await fetch(`http://localhost:4000/moderator/ignorereportedpost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "report_id": report_id
+      }),
+    });
+    const data = await response.json();
+    reports.filter((report) => report.report_id !== report_id)
+    window.location.reload();
+
+    
+
+
+  }
+
+  const UnIgnore = async (report_id) => {
+      
+      const response = await fetch(`http://localhost:4000/moderator/unignorereportedpost`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "report_id": report_id
+        }),
+      });
+      const data = await response.json();
+      reports.filter((report) => report.report_id !== report_id)
+      window.location.reload();
 
   }
 
@@ -100,14 +131,12 @@ const Reported_Page = () => {
     const data = await response.json();
     console.log("This is data", data)
     reports.filter((report) => report.report_id !== report_id)
-
-
     
+
+
+
   }
 
-  const hideButton = (event) => {
-    event.target.style.display = "none";
-  }
 
   const BlockPost = async (report_id) => {
     const response = await fetch(`http://localhost:4000/moderator/blockreportedpost`, {
@@ -122,6 +151,8 @@ const Reported_Page = () => {
     const data = await response.json();
     console.log(data)
     reports.filter((report) => report.report_id !== report_id)
+
+    
   }
 
 
@@ -142,32 +173,42 @@ const Reported_Page = () => {
                 </MDBCardHeader>
                 <MDBCardBody>
                   <MDBCardText>
-                     Post Content: {report.post_content}
+                    Post Content: {report.post_content}
                   </MDBCardText>
                   <MDBCardText>
                     Reason: {report.reason}
                   </MDBCardText>
 
-                  { edit_access &&
+                  {edit_access &&
 
-                  <MDBRow className="d-flex justify-content-around">
-                    <MDBCol>
-                      <button className="btn btn-success" id="ignore" onClick={() => IgnoreReport(report._id)} >Ignore</button>
-                    </MDBCol>
-                    <MDBCol>
-                      <button className="btn btn-danger"  id="delete" onClick={(event) => {DeletePost(report._id) ; hideButton(event)}}>Delete</button>
-                    </MDBCol>
-                  </MDBRow>
-}
+                    <MDBRow className="d-flex justify-content-around">
+                      <MDBCol>
+                        { report.status === "pending" &&
+                        <button className="btn btn-success" id="ignore" onClick={() => IgnoreReport(report._id)} >Ignore</button>
+                  }
+                  {
+                    report.status === "Ignored" &&
+                    <button className="btn btn-success" id="ignored" onClick={() => UnIgnore(report._id)} >Un -Ignore</button>
+                  }
+
+                      </MDBCol>
+                      <MDBCol>
+                        { report.status === "pending" &&
+                          <button className="btn btn-danger" id="delete" onClick={(event) => { DeletePost(report._id) ;  }}>Delete</button>
+                        }
+                      </MDBCol>
+                    </MDBRow>
+                  }
 
                 </MDBCardBody>
-                { edit_access &&
-                <MDBCardFooter className="text-muted text-center">
-  
-                  <MDBBtn id="block" onClick={(event) => {BlockPost(report._id); hideButton(event)}}> Block User </MDBBtn>
-                
-                </MDBCardFooter>
-}
+                {edit_access &&
+                  <MDBCardFooter className="text-muted text-center">
+                   { report.status === "pending" &&
+                      <MDBBtn id="block" onClick={(event) => { BlockPost(report._id) }}> Block User </MDBBtn>
+                }
+
+                  </MDBCardFooter>
+                }
 
 
 
@@ -176,7 +217,7 @@ const Reported_Page = () => {
           )}
         </div>
 
-      </MDBContainer> 
+      </MDBContainer>
 
     </>
   )

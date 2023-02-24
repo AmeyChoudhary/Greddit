@@ -125,7 +125,7 @@ const FollowingPage = () => {
                     </MDBTableBody>
                 </MDBTable>
             </div>)}
-            {followings.length === 0 && <h4>Sigma</h4>}
+            {followings.length === 0 && <h4>You follow no one</h4>}
         </>
     )
 }

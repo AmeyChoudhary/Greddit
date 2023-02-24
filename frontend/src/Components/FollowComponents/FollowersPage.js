@@ -131,7 +131,7 @@ const FollowersPage = () => {
 
             
             </div>)}
-            {followers.length === 0 && <h4>Lonely Saala</h4>}
+            {followers.length === 0 && <h4>You are followed by no one</h4>}
         </div>
     )
 }

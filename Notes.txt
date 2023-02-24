@@ -18,15 +18,12 @@ Signout in Navbar
 
 
 8. posts comments
-9. window reload put
 14. upvote and downvote
 23. cancel blocking
 	timer 
 filter
-left side image
 create post dialog box
 alert box fr coming back
-24. ignore
 25. dockerization
 
 

@@ -83,6 +83,24 @@ export const blockReportedPost = async (req, res) => {
 
 }
 
+export const ignoreReportedPost = async (req, res) => {
+    const { report_id } = req.body;
+    const report = await Reports.findById(report_id);
+    report.status = "Ignored";
+    console.log(report)
+    await report.save();
+    res.status(200).json({ message: "Report ignored" });
+}
+
+export const unignoreReportedPost = async (req, res) => {
+    const { report_id } = req.body;
+    const report = await Reports.findById(report_id);
+    report.status = "pending";
+    console.log(report)
+    await report.save();
+    res.status(200).json({ message: "Report unignored" });
+}
+
 export const stats = async (req, res) => {
     const { subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
