@@ -13,8 +13,8 @@ import {
     MDBModalHeader,
     MDBModalTitle,
     MDBModalBody,
-    MDBModalFooter,
-  } from 'mdb-react-ui-kit';
+} from 'mdb-react-ui-kit';
+import { MDBInput } from 'mdb-react-ui-kit';
 
 
 
@@ -93,11 +93,11 @@ const SubGredditPage = () => {
         setPosts(data);
     }
 
-    const CreatePost = async () => {
-        // e.preventDefault();
-        let subgreddit_name = params.subgreddit_name;
-        navigate(`/subgreddit/${subgreddit_name}/createpost`)
-    }
+    // const CreatePost = async () => {
+    //     // e.preventDefault();
+    //     let subgreddit_name = params.subgreddit_name;
+    //     navigate(`/subgreddit/${subgreddit_name}/createpost`)
+    // }
 
     const LeaveSubGreddit = async () => {
         let subgreddit_name = params.subgreddit_name;
@@ -200,6 +200,55 @@ const SubGredditPage = () => {
 
     const toggleShow = () => setBasicModal(!basicModal);
 
+    const enableSubmit = (event) => {
+        //Prevent page reload
+        event.preventDefault();
+        var { title, content } = document.forms[0];
+        let btn = document.getElementById("submit");
+        let isValid = true;
+        if (title.value === "" || title.value === null) {
+            isValid = false;
+        }
+        if (content.value === "" || content.value === null) {
+            isValid = false;
+        }
+
+
+        btn.disabled = !isValid;
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        var { title, content } = document.forms[0];
+        let subGreddit = params.subgreddit_name;
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        setUser(decoded_user.username);
+
+        const response = await fetch('http://localhost:4000/posts/createpost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+
+            },
+            body: JSON.stringify({
+                "title": title.value,
+                "content": content.value,
+                "posted_by": user,
+                "subgreddit": subGreddit,
+            })
+        });
+
+        let data = await response.json();
+
+        if (data) {
+            alert("New Post is Created")
+            window.location.reload();
+        }
+
+
+    };
 
 
     // /moderator
@@ -217,28 +266,28 @@ const SubGredditPage = () => {
         /* normal user can view post, can join */
 
         <>
-        
+
             {status === "moderator" && subGreddit[0] &&
                 <>
 
                     <NavbarModerator></NavbarModerator>
                     <>
-                    <left>
-                        <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
-                    </left>
+                        <left>
+                            <img src="https://th.bing.com/th/id/OIP.TcOUw74MyIYXUSYUrxbSYwHaEK?pid=ImgDet&rs=1" alt="subgreddit" width="200" height="200" />
+                        </left>
 
 
 
-                    <center>
+                        <center>
 
-                        <h1 >
-                            {subGreddit[0].name}</h1>
+                            <h1 >
+                                {subGreddit[0].name}</h1>
 
-                        <p>{subGreddit[0].description}</p>
+                            <p>{subGreddit[0].description}</p>
 
 
 
-                    </center>
+                        </center>
                     </>
 
 
@@ -275,7 +324,7 @@ const SubGredditPage = () => {
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
-                                            <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => {FollowPoster(post.posted_by.username); hideButton(event)}}> Follow</MDBBtn>
+                                            <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => { FollowPoster(post.posted_by.username); hideButton(event) }}> Follow</MDBBtn>
                                             </MDBCardText>
                                         </MDBCardFooter>
                                     </MDBCard>
@@ -294,12 +343,25 @@ const SubGredditPage = () => {
                     }
 
                     <center>
-                        <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
-                        
+                        <MDBBtn onClick={toggleShow}>Create Post</MDBBtn>
+                        <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                            <MDBModalDialog>
+                                <MDBModalContent>
+                                    <MDBModalHeader>
+                                        <MDBModalTitle>Create a new Post</MDBModalTitle>
+                                        <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                                    </MDBModalHeader>
+                                    <MDBModalBody>
+                                        <form onChange={enableSubmit} onSubmit={handleSubmit}>
+                                            <MDBInput wrapperClass='mb-4' label='Title' id='title' type='text' />
+                                            <MDBInput wrapperClass='mb-4' label='Content' id='content' type='text' />
+                                            <MDBBtn className='w-100 mb-4' size='md' type='submit' id="submit" disabled onClick={toggleShow}> Create Post</MDBBtn>
+                                        </form>
+                                    </MDBModalBody>
+                                </MDBModalContent>
+                            </MDBModalDialog>
+                        </MDBModal>
                     </center>
-
-
-
                 </>
             }
 
@@ -353,8 +415,8 @@ const SubGredditPage = () => {
                                         <MDBCardFooter className="text-center">
                                             {
                                                 post.blocked === true ? <MDBCardText>Blocked User</MDBCardText> :
-                                                <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => {FollowPoster(post.posted_by.username); hideButton(event)}}> Follow</MDBBtn>
-                                                </MDBCardText>
+                                                    <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => { FollowPoster(post.posted_by.username); hideButton(event) }}> Follow</MDBBtn>
+                                                    </MDBCardText>
                                             }
                                         </MDBCardFooter>
                                     </MDBCard>
@@ -372,12 +434,31 @@ const SubGredditPage = () => {
 
                     }
                     <center>
-                        <MDBBtn onClick={CreatePost}>Create Post</MDBBtn>
+                    <MDBBtn onClick={toggleShow}>Create Post</MDBBtn>
+                        <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                            <MDBModalDialog>
+                                <MDBModalContent>
+                                    <MDBModalHeader>
+                                        <MDBModalTitle>Create a new Post</MDBModalTitle>
+                                        <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                                    </MDBModalHeader>
+                                    <MDBModalBody>
+                                        <form onChange={enableSubmit} onSubmit={handleSubmit}>
+                                            <MDBInput wrapperClass='mb-4' label='Title' id='title' type='text' />
+                                            <MDBInput wrapperClass='mb-4' label='Content' id='content' type='text' />
+                                            <MDBBtn className='w-100 mb-4' size='md' type='submit' id="submit" disabled onClick={toggleShow}> Create Post</MDBBtn>
+                                        </form>
+                                    </MDBModalBody>
+                                </MDBModalContent>
+                            </MDBModalDialog>
+                        </MDBModal>
                     </center>
                     {/* leave button */}
-                    <right>
+
+                    <br></br>
+                    <center>
                         <MDBBtn onClick={LeaveSubGreddit}>Leave Sub Greddit</MDBBtn>
-                    </right>
+                    </center>
 
 
 
