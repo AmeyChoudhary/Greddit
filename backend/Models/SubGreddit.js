@@ -37,6 +37,8 @@ const SubGredditSchema = new mongoose.Schema({
                 type: Date, 
                 default: Date.now
             },
+            //was earlier trying to add a field for the date of joining but it was not working, not removing as
+            // if it works, dont touch it :)
         }], sparse: true
     },
     posts_num: {

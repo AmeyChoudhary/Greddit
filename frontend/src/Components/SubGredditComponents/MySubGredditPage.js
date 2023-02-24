@@ -75,8 +75,10 @@ const MySubGredditPage = () => {
     mySubGreddits();
   }
 
-  const hideButton = (event) => {
-    event.target.style.visibility = "hidden";
+
+
+  const reloadPage = () => {
+    window.location.reload();
   }
 
 
@@ -140,7 +142,7 @@ const MySubGredditPage = () => {
                 </MDBCardBody>
                 <MDBCardFooter className="text-center">
                   <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
-                  <MDBBtn color='danger' onClick={(event) => { deleteSubGreddit(subGreddit.name); hideButton(event) }}>Delete SubGreddit!</MDBBtn>
+                  <MDBBtn color='danger' onClick={() => { deleteSubGreddit(subGreddit.name); reloadPage() }}>Delete SubGreddit!</MDBBtn>
                 </MDBCardFooter>
               </MDBCard>
             </div>

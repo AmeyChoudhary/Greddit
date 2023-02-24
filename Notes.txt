@@ -18,7 +18,7 @@ Signout in Navbar
 
 
 8. posts comments
-9. delete subgreddit disappears
+9. window reload put
 14. upvote and downvote
 23. cancel blocking
 	timer 
