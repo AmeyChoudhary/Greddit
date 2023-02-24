@@ -28,6 +28,14 @@ export const AcceptJoiningRequest = async (req, res) => {
     subGreddit[0].requested_user = subGreddit[0].requested_user.filter((user) => user.username !== username);
     subGreddit[0].members_num = subGreddit[0].members.length;
     await subGreddit[0].save();
+    subGreddit[0].members_num_change.push(
+        {
+            date: new Date(),
+            num: subGreddit[0].members.length,
+        }
+    )
+    await subGreddit[0].save();
+
     res.status(200).json({ message: "User added to the subgreddit" });
 }
 
@@ -78,31 +86,64 @@ export const blockReportedPost = async (req, res) => {
 export const stats = async (req, res) => {
     const { subgreddit_name } = req.body;
     const subGreddit = await SubGreddit.find({ name: subgreddit_name });
-    const members = subGreddit[0].members;
 
-    let countByJoiningDate = {};
-    members.map((member) => {
-        let joiningdate = member.joining_date.toDateString();
-        if (!countByJoiningDate[joiningdate]) {
-            countByJoiningDate[joiningdate] = 0;
+    const members_num_change = subGreddit[0].members_num_change;
+    const members_grouped = members_num_change.map((member) => {
+        return {
+            date: member.date.toDateString(),
+            num: member.num
         }
-        countByJoiningDate[joiningdate]++;
     })
+
+    const members_groupbydate = members_grouped.reduce((acc, obj) => {
+        const key = obj.date;
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+    }, {});
+
+    // Object.keys is used for mapping, uske bina dikkat
+    const members_groupbydate_num = Object.keys(members_groupbydate).map((key) => {
+        return {
+            date: key,
+            num: members_groupbydate[key][members_groupbydate[key].length - 1].num
+        }
+    })
+
+
         
     const posts = await Post.find({ "in_subgreddit.name": subgreddit_name });
-    
-    let posts_by_date = {};
-    posts.map((post) => {
-        let creationdate = post.createdAt.toDateString();
-        if (!posts_by_date[creationdate]) {
-            posts_by_date[creationdate] = 0;
+    const posts_grouped = posts.map((post) => {
+        return {
+            date: post.createdAt.toDateString(),
+            post_id: post._id
         }
-        posts_by_date[creationdate]++;
     })
 
-    let reportstat = { numreportedposts: subGreddit[0].reported_posts_num, numdeletedposts: subGreddit[0].deleted_posts_num };
+    const posts_groupbydate = posts_grouped.reduce((acc, obj) => {
+        const key = obj.date;
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+    }, {});
 
-    res.status(200).json({ countByJoiningDate, posts_by_date, reportstat });
+    // Object.keys is used for mapping, uske bina dikkat
+    const posts_groupbydate_num = Object.keys(posts_groupbydate).map((key) => {
+        return {
+            date: key,
+            num: posts_groupbydate[key].length
+        }
+    })
+
+    let reportstat = { reported_posts_num: subGreddit[0].reported_posts_num, deleted_posts_num: subGreddit[0].deleted_posts_num };
+
+    // console.log(members_groupbydate_num, posts_groupbydate_num, reportstat)
+
+    res.status(200).json({ members_groupbydate_num, posts_groupbydate_num, reportstat });
 
 }
 

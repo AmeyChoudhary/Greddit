@@ -90,6 +90,14 @@ const SubGredditSchema = new mongoose.Schema({
         default: 0,
 
     },
+    members_num_change: {
+        type: [{
+            date: Date,
+            num: Number,
+        }], sparse: true,
+        required: true,
+        trim: true,
+    },
 }, { timestamps: true
 
 });

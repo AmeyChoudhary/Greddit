@@ -104,7 +104,7 @@ const SubGredditPage = () => {
         });
         let data = await response.json();
         console.log(data);
-        setStatus("normal_user")
+        setStatus("blocked")
 
     }
 

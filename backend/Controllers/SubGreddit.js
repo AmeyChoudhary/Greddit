@@ -30,6 +30,12 @@ export const createSubGreddit = async (req, res) => {
             last_name: moderator.last_name,
             username: moderator.username,
         }],
+        members_num_change: [
+            {
+                date: new Date(),
+                num: 1,
+            }
+        ],
         posts: [],
         blocked_users: [],
         requested_user: [],
@@ -126,6 +132,14 @@ export const LeaveSubGreddit = async (req, res) => {
         last_name: user.last_name,
     })
     await subGreddit[0].save();
+    subGreddit[0].members_num_change.push(
+        {
+            date: new Date(),
+            num: subGreddit[0].members.length,
+        }
+    )
+
+    await subGreddit[0].save();
     res.status(200).json(subGreddit);
 }
 
@@ -137,6 +151,8 @@ export const JoinSubGreddit = async (req, res) => {
         first_name: first_name,
         last_name: last_name,
     });
+
+
     await subGreddit[0].save();
     res.status(200).json(subGreddit);
 }

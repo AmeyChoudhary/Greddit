@@ -14,16 +14,18 @@ Signout in Navbar
 
 
 
-4. stats moss and look once
-5. error handling
-7. tags and banned single word
+
+
+
 8. posts comments
 9. delete subgreddit disappears
 14. upvote and downvote
-19. edge cases like when delete, completely delete
-21. post count
-22. requested and normal cant post
 23. cancel blocking
+	timer 
+filter
+left side image
+create post dialog box
+alert box fr coming back
 24. ignore
 25. dockerization
 
