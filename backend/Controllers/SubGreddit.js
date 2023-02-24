@@ -167,7 +167,7 @@ export const deleteSubGreddits = async (req, res) => {
     await SavedPost.deleteMany({ "post_id": { $in: post_id } });
     await Post.deleteMany({ "subgreddit.name": subgreddit_name });
     await Reports.deleteMany({ "in_subgreddit.name": subgreddit_name });
-    await subGreddit[0].delete();
+    await SubGreddit.deleteOne({ name: subgreddit_name });
     res.status(200).json(subGreddit);
 
 

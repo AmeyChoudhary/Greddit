@@ -4,6 +4,8 @@ services:
     image: "mongo"
     volumes:
       - data:/data/db
+    networks:
+      - mern-network
   backend:
     build: ./backend
     restart: unless-stopped
@@ -15,6 +17,8 @@ services:
       - /app/node_modules
     depends_on:
       - mongodb
+    networks:
+      - mern-network
   frontend:
     build: ./frontend
     restart: unless-stopped
@@ -26,6 +30,12 @@ services:
     tty: true
     depends_on:
       - backend
+    networks:
+      - mern-network
+
+networks:
+   mern-network:
+     driver: bridge
 
 volumes:
   data:

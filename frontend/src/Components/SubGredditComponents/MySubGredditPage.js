@@ -72,7 +72,7 @@ const MySubGredditPage = () => {
     });
     const data = await response.json();
     console.log(data);
-    mySubGreddits();
+    reloadPage();
   }
 
 
@@ -142,7 +142,7 @@ const MySubGredditPage = () => {
                 </MDBCardBody>
                 <MDBCardFooter className="text-center">
                   <MDBBtn color="primary" onClick={() => { navigate(`/subgreddit/${subGreddit.name}`) }}>View</MDBBtn>
-                  <MDBBtn color='danger' onClick={() => { deleteSubGreddit(subGreddit.name); reloadPage() }}>Delete SubGreddit!</MDBBtn>
+                  <MDBBtn color='danger' onClick={() => { deleteSubGreddit(subGreddit.name) }}>Delete SubGreddit!</MDBBtn>
                 </MDBCardFooter>
               </MDBCard>
             </div>

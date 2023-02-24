@@ -575,13 +575,14 @@ const SubGredditPage = () => {
 
                                             <br></br>
 
-
                                             <MDBRow>
-                                                <form >
-                                                    <MDBInput id={post._id} label="Add Comment" />
-                                                    <MDBBtn onClick={(event) => { addcomment(post._id); event.preventDefault() }} >Add Comment</MDBBtn>
-                                                </form>
+
+                                                <MDBInput id={post._id} label="Add Comment" />
+                                                <MDBBtn onClick={(event) => { addcomment(post._id); event.preventDefault() }} >Add Comment</MDBBtn>
+
                                             </MDBRow>
+
+
                                             <br></br>
                                             <MDBRow>
                                                 <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} className='me-1' color='danger'>Report</MDBBtn>
