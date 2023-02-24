@@ -220,3 +220,24 @@ export const downVotePost = async (req, res) => {
     }
 
 }
+
+export const addComment = async (req, res) => {
+
+    const { username, post_id, comment } = req.body;
+    const user = await User.find({ username: username });
+    const post = await Post.find({ _id: post_id });
+    post[0].comments.push({
+        content: comment,
+        posted_by: {
+            username: username,
+            first_name: user[0].first_name,
+            last_name: user[0].last_name,
+        },
+        }
+    )
+
+    post[0].comments_num = post[0].comments.length;
+
+    await post[0].save();
+    res.status(200).json(post);
+}

@@ -51,7 +51,13 @@ const PostSchema = new mongoose.Schema({
     },
     comments: {
         type: [{
-            comment_id: String,
+            content: String, // even though id, too lazy to change schema, so gonna just put comments
+            posted_by: {
+                username: String,
+                first_name: String,
+                last_name: String,
+            },
+
         }], sparse: true
     },
 

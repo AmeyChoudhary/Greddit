@@ -16,6 +16,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { MDBInput } from 'mdb-react-ui-kit';
 import { MDBIcon } from 'mdb-react-ui-kit';
+import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 
 
@@ -27,6 +28,7 @@ const SubGredditPage = () => {
     const [posts, setPosts] = useState([])
     const [status, setStatus] = useState("")
     const [user, setUser] = useState([])
+
 
     useEffect(() => {
 
@@ -296,6 +298,35 @@ const SubGredditPage = () => {
         window.location.reload();
     }
 
+    const addcomment = async (post_id) => {
+
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        let username = decoded_user.username;
+        let comment = document.getElementById(post_id).value;
+
+        if (comment === "" || comment === null) {
+            alert("Comment cannot be empty")
+            return;
+        }
+        let response = await fetch(`http://localhost:4000/subgreddit/addcomment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": username,
+                "post_id": post_id,
+                "comment": comment
+            }),
+        });
+        let data = await response.json();
+        console.log(data);
+        window.location.reload();
+    }
+
+
+
 
 
 
@@ -358,26 +389,60 @@ const SubGredditPage = () => {
                                                 <MDBCol>
                                                     {post.upvotes} Upvotes
                                                     {
-                                                    post.upvoted_by.filter((user1) => user1.username === user.username).length > 0
-                                                     ?
-                                                        <MDBBtn onClick={() => { upVote(post._id) }} >
-                                                            <MDBIcon fas icon="caret-up" />Aready  Upvoted</MDBBtn>
-                                                        :
-                                                        <MDBBtn onClick={() => { upVote(post._id) }} > <MDBIcon fas icon="caret-up" /> Upvote</MDBBtn>
+                                                        post.upvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                            ?
+                                                            <MDBBtn onClick={() => { upVote(post._id) }} >
+                                                                <MDBIcon fas icon="caret-up" />Aready  Upvoted</MDBBtn>
+                                                            :
+                                                            <MDBBtn onClick={() => { upVote(post._id) }} > <MDBIcon fas icon="caret-up" /> Upvote</MDBBtn>
                                                     }
 
                                                 </MDBCol>
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
                                                     {
-                                                    post.downvoted_by.filter((user1) => user1.username === user.username).length > 0
-                                                     ?
-                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" />Already Downvoted</MDBBtn>
-                                                        :
-                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" /> Downvote</MDBBtn>
+                                                        post.downvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                            ?
+                                                            <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" />Already Downvoted</MDBBtn>
+                                                            :
+                                                            <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" /> Downvote</MDBBtn>
                                                     }
                                                 </MDBCol>
                                             </MDBRow>
+
+                                            <br></br>
+
+                                            <MDBAccordion>
+                                                <MDBAccordionItem collapseId={1} headerTitle='Comments'>
+
+                                                    <MDBRow>
+
+                                                        {post.comments && post.comments.map((comment) =>
+                                                            <div key={comment._id}>
+                                                                <MDBRow>
+                                                                    <MDBCol>
+                                                                        {comment.posted_by.username} commented " {comment.content}"
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </div>
+                                                        )}
+                                                    </MDBRow>
+                                                </MDBAccordionItem>
+                                            </MDBAccordion>
+
+
+                                            <br></br>
+
+                                            <MDBRow>
+
+                                                <MDBInput id={post._id} label="Add Comment" />
+                                                <MDBBtn onClick={(event) => { addcomment(post._id); event.preventDefault() }} >Add Comment</MDBBtn>
+
+                                            </MDBRow>
+
+
+
 
                                             <br></br>
                                             <MDBRow>
@@ -432,7 +497,8 @@ const SubGredditPage = () => {
                 </>
             }
 
-            {status === "member" && subGreddit[0] &&
+            {
+                status === "member" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
                     <left>
@@ -467,7 +533,7 @@ const SubGredditPage = () => {
                                                 <MDBCol>
                                                     {post.upvotes} Upvotes
                                                     {post.upvoted_by.filter((user1) => user1.username === user.username).length > 0
-                                                    ?
+                                                        ?
                                                         <MDBBtn onClick={() => { upVote(post._id) }} >
                                                             <MDBIcon fas icon="caret-up" /> Already Upvoted</MDBBtn>
                                                         :
@@ -478,12 +544,43 @@ const SubGredditPage = () => {
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
                                                     {post.downvoted_by.filter((user1) => user1.username === user.username).length > 0
-                                                    ?
+                                                        ?
                                                         <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" />Already Downvoted</MDBBtn>
                                                         :
                                                         <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" /> Downvote</MDBBtn>
                                                     }
                                                 </MDBCol>
+                                            </MDBRow>
+                                            <br></br>
+
+                                            <MDBAccordion>
+                                                <MDBAccordionItem collapseId={1} headerTitle='Comments'>
+
+                                                    <MDBRow>
+
+                                                        {post.comments && post.comments.map((comment) =>
+                                                            <div key={comment._id}>
+                                                                <MDBRow>
+                                                                    <MDBCol>
+                                                                        {comment.posted_by.username} commented " {comment.content}"
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </div>
+                                                        )}
+                                                    </MDBRow>
+                                                </MDBAccordionItem>
+                                            </MDBAccordion>
+
+
+                                            <br></br>
+
+
+                                            <MDBRow>
+                                                <form >
+                                                    <MDBInput id={post._id} label="Add Comment" />
+                                                    <MDBBtn onClick={(event) => { addcomment(post._id); event.preventDefault() }} >Add Comment</MDBBtn>
+                                                </form>
                                             </MDBRow>
                                             <br></br>
                                             <MDBRow>
@@ -547,7 +644,8 @@ const SubGredditPage = () => {
 
                 </>
             }
-            {status === "blocked" && subGreddit[0] &&
+            {
+                status === "blocked" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
                     <left>
@@ -588,6 +686,32 @@ const SubGredditPage = () => {
                                                     {post.downvotes} Downvotes
                                                 </MDBCol>
                                             </MDBRow>
+
+                                            <br></br>
+
+                                            <MDBAccordion>
+                                                <MDBAccordionItem collapseId={1} headerTitle='Comments'>
+
+                                                    <MDBRow>
+
+                                                        {post.comments && post.comments.map((comment) =>
+                                                            <div key={comment._id}>
+                                                                <MDBRow>
+                                                                    <MDBCol>
+                                                                        {comment.posted_by.username} commented " {comment.content}"
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </div>
+                                                        )}
+                                                    </MDBRow>
+                                                </MDBAccordionItem>
+                                            </MDBAccordion>
+
+
+                                            <br></br>
+
+
                                             {/* <MDBRow>
                             <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
                         </MDBRow>
@@ -621,7 +745,8 @@ const SubGredditPage = () => {
 
                 </>
             }
-            {status === "requested" && subGreddit[0] &&
+            {
+                status === "requested" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
                     <left>
@@ -667,6 +792,29 @@ const SubGredditPage = () => {
                                                 <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
                                             </MDBRow> */}
 
+                                            <br></br>
+
+                                            <MDBAccordion>
+                                                <MDBAccordionItem collapseId={1} headerTitle='Comments'>
+
+                                                    <MDBRow>
+
+                                                        {post.comments && post.comments.map((comment) =>
+                                                            <div key={comment._id}>
+                                                                <MDBRow>
+                                                                    <MDBCol>
+                                                                        {comment.posted_by.username} commented " {comment.content}"
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </div>
+                                                        )}
+                                                    </MDBRow>
+                                                </MDBAccordionItem>
+                                            </MDBAccordion>
+
+
+                                            <br></br>
 
                                         </MDBCardBody>
                                         <MDBCardFooter className="text-center">
@@ -695,7 +843,8 @@ const SubGredditPage = () => {
 
                 </>
             }
-            {status === "normal_user" && subGreddit[0] &&
+            {
+                status === "normal_user" && subGreddit[0] &&
                 <>
                     <NavbarModerator></NavbarModerator>
                     <left>
@@ -740,6 +889,31 @@ const SubGredditPage = () => {
                                             <MDBRow>
                                                 <MDBBtn onClick={() => SavedPost(post._id)} >Save</MDBBtn>
                                             </MDBRow> */}
+
+                                            <br></br>
+
+                                            <MDBAccordion>
+                                                <MDBAccordionItem collapseId={1} headerTitle='Comments'>
+
+                                                    <MDBRow>
+
+                                                        {post.comments && post.comments.map((comment) =>
+                                                            <div key={comment._id}>
+                                                                <MDBRow>
+                                                                    <MDBCol>
+                                                                        {comment.posted_by.username} commented " {comment.content}"
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </div>
+                                                        )}
+                                                    </MDBRow>
+                                                </MDBAccordionItem>
+                                            </MDBAccordion>
+
+
+                                            <br></br>
+
 
 
                                         </MDBCardBody>
