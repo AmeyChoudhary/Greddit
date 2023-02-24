@@ -172,3 +172,51 @@ export const deleteSubGreddits = async (req, res) => {
 
 
 }
+
+export const upVotePost = async (req, res) => {
+    const { username, post_id } = req.body;
+    const post = await Post.find({ _id: post_id });
+
+
+
+    if(post[0].upvoted_by.filter((user) => user.username === username).length > 0) {
+        post[0].upvoted_by = post[0].upvoted_by.filter((user) => user.username !== username);
+        post[0].upvotes = post[0].upvoted_by.length;
+        await post[0].save();
+        res.status(200).json(post);
+    }
+    else{
+        post[0].upvoted_by.push({
+            username: username,
+        });
+        post[0].upvotes = post[0].upvoted_by.length;
+        post[0].downvoted_by = post[0].downvoted_by.filter((user) => user.username !== username);
+        post[0].downvotes = post[0].downvoted_by.length;
+        await post[0].save();
+        res.status(200).json(post);
+    }    
+}
+
+export const downVotePost = async (req, res) => {
+
+    const { username, post_id } = req.body;
+    const post = await Post.find({ _id: post_id });
+
+    if(post[0].downvoted_by.filter((user) => user.username === username).length > 0) {
+        post[0].downvoted_by = post[0].downvoted_by.filter((user) => user.username !== username);
+        post[0].downvotes = post[0].downvoted_by.length;
+        await post[0].save();
+        res.status(200).json(post);
+    }
+    else{
+        post[0].downvoted_by.push({
+            username: username,
+        });
+        post[0].downvotes = post[0].downvoted_by.length;
+        post[0].upvoted_by = post[0].upvoted_by.filter((user) => user.username !== username);
+        post[0].upvotes = post[0].upvoted_by.length;
+        await post[0].save();
+        res.status(200).json(post);
+    }
+
+}

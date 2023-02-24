@@ -3,6 +3,8 @@ import { createSubGreddit , mySubGreddits, allSubGreddits, getUserStatus , getSu
 import { LeaveSubGreddit } from '../Controllers/SubGreddit.js';
 import { JoinSubGreddit } from '../Controllers/SubGreddit.js';
 import { deleteSubGreddits } from '../Controllers/SubGreddit.js';
+import { upVotePost } from '../Controllers/SubGreddit.js';
+import { downVotePost } from '../Controllers/SubGreddit.js';
 const router = express.Router();
 
 router.post('/create', createSubGreddit);
@@ -13,4 +15,6 @@ router.post('/status', getUserStatus);
 router.post('/info', getSubGredditInfo)
 router.post('/leave', LeaveSubGreddit)
 router.post('/join', JoinSubGreddit)
+router.post('/upvote', upVotePost)
+router.post('/downvote', downVotePost)
 export default router;

@@ -18,11 +18,11 @@ Signout in Navbar
 
 
 8. posts comments
-14. upvote and downvote
+
 23. cancel blocking
 	timer 
-filter
-25. dockerization
+	filter
+
 
 
 

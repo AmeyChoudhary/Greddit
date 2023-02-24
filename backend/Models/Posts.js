@@ -33,6 +33,16 @@ const PostSchema = new mongoose.Schema({
         trim: true,
         default: 0,
     },
+    upvoted_by: {
+        type: [{
+            username: String,
+        }], sparse: true
+    },
+    downvoted_by: {
+        type: [{
+            username: String,
+        }], sparse: true
+    },
     downvotes: {
         type: Number,
         required: true,

@@ -15,6 +15,7 @@ import {
     MDBModalBody,
 } from 'mdb-react-ui-kit';
 import { MDBInput } from 'mdb-react-ui-kit';
+import { MDBIcon } from 'mdb-react-ui-kit';
 
 
 
@@ -51,9 +52,9 @@ const SubGredditPage = () => {
                     }),
                 });
                 let data = await response.json();
-                console.log(data.status);
+                // console.log(data.status);
                 setStatus(data.status)
-                console.log(status)
+                // console.log(status)
 
             }
             else {
@@ -254,6 +255,49 @@ const SubGredditPage = () => {
 
     };
 
+    const upVote = async (post_id) => {
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        let username = decoded_user.username;
+
+        let response = await fetch(`http://localhost:4000/subgreddit/upvote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": username,
+                "post_id": post_id
+            }),
+        });
+        let data = await response.json();
+        console.log(data);
+        window.location.reload();
+    }
+
+    const downVote = async (post_id) => {
+        let token = localStorage.getItem("token");
+        let decoded_user = await jwt(token)
+        let username = decoded_user.username;
+
+        let response = await fetch(`http://localhost:4000/subgreddit/downvote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": username,
+                "post_id": post_id
+
+            }),
+        });
+        let data = await response.json();
+        console.log(data);
+        window.location.reload();
+    }
+
+
+
 
     // /moderator
     return (
@@ -313,15 +357,33 @@ const SubGredditPage = () => {
                                             <MDBRow>
                                                 <MDBCol>
                                                     {post.upvotes} Upvotes
+                                                    {
+                                                    post.upvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                     ?
+                                                        <MDBBtn onClick={() => { upVote(post._id) }} >
+                                                            <MDBIcon fas icon="caret-up" />Aready  Upvoted</MDBBtn>
+                                                        :
+                                                        <MDBBtn onClick={() => { upVote(post._id) }} > <MDBIcon fas icon="caret-up" /> Upvote</MDBBtn>
+                                                    }
+
                                                 </MDBCol>
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
+                                                    {
+                                                    post.downvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                     ?
+                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" />Already Downvoted</MDBBtn>
+                                                        :
+                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" /> Downvote</MDBBtn>
+                                                    }
                                                 </MDBCol>
+                                            </MDBRow>
 
-                                            </MDBRow>
+                                            <br></br>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} className='me-1' color='danger' >Report</MDBBtn>
                                             </MDBRow>
+                                            <br></br>
                                             <MDBRow>
                                                 <MDBBtn onClick={(event) => { SavedPost(post._id); hideButton(event) }} >Save</MDBBtn>
                                             </MDBRow>
@@ -331,6 +393,7 @@ const SubGredditPage = () => {
                                             <MDBCardText>{post.posted_by.username}  <MDBBtn onClick={(event) => { FollowPoster(post.posted_by.username); hideButton(event) }}> Follow</MDBBtn>
                                             </MDBCardText>
                                         </MDBCardFooter>
+
                                     </MDBCard>
                                 </div>
                             )}
@@ -403,14 +466,30 @@ const SubGredditPage = () => {
                                             <MDBRow>
                                                 <MDBCol>
                                                     {post.upvotes} Upvotes
+                                                    {post.upvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                    ?
+                                                        <MDBBtn onClick={() => { upVote(post._id) }} >
+                                                            <MDBIcon fas icon="caret-up" /> Already Upvoted</MDBBtn>
+                                                        :
+                                                        <MDBBtn onClick={() => { upVote(post._id) }} > <MDBIcon fas icon="caret-up" /> Upvote</MDBBtn>
+                                                    }
+
                                                 </MDBCol>
                                                 <MDBCol>
                                                     {post.downvotes} Downvotes
+                                                    {post.downvoted_by.filter((user1) => user1.username === user.username).length > 0
+                                                    ?
+                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" />Already Downvoted</MDBBtn>
+                                                        :
+                                                        <MDBBtn onClick={() => { downVote(post._id) }} > <MDBIcon fas icon="caret-down" /> Downvote</MDBBtn>
+                                                    }
                                                 </MDBCol>
                                             </MDBRow>
+                                            <br></br>
                                             <MDBRow>
-                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} >Report</MDBBtn>
+                                                <MDBBtn onClick={(event) => { ReportPost(post._id); hideButton(event) }} className='me-1' color='danger'>Report</MDBBtn>
                                             </MDBRow>
+                                            <br></br>
                                             <MDBRow>
                                                 <MDBBtn onClick={(event) => { SavedPost(post._id); hideButton(event) }} >Save</MDBBtn>
                                             </MDBRow>
