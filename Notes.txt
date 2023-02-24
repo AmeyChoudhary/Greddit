@@ -19,9 +19,11 @@ Signout in Navbar
 
 
 
-23. cancel blocking
-	timer 
-	filter
+ cancel blocking
+ timer 
+ filter
+
+readme and final submission
 
 
 

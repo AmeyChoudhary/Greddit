@@ -1,34 +1,33 @@
-version: '3.3'
-
+version: "3.8"
 services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
   backend:
-    # depends_on:
     build: ./backend
     restart: unless-stopped
-    # env_file: ./.env
     ports:
       - "4000:4000"
-
-  frontend:
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
     depends_on:
-      - backend
-    build:
-      context: ./frontend
+      - mongodb
+  frontend:
+    build: ./frontend
     restart: unless-stopped
     ports:
-      - "3000:3000" 
-  # nginx:
-  #       depends_on:
-  #         - backend
-  #         - frontend
-  #       restart: always
-  #       build:
-  #           context: ./nginx
-  #       ports:
-  #           - "8080:8080"
-volumes: 
-  db:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
 
-networks:
-  backend:
-  frontend:
+volumes:
+  data:
+  logs:
+
