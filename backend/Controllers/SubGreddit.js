@@ -57,9 +57,22 @@ export const mySubGreddits = async (req, res) => {
 }
 
 export const allSubGreddits = async (req, res) => {
+    const { username } = req.body;
+    
     try {
-        const subGreddits = await SubGreddit.find();
-        res.status(200).json(subGreddits);
+        const subGreddits_joined = await SubGreddit.find({ "members.username": username });
+        const subGreddits_all = await SubGreddit.find();
+        const subGreddits = subGreddits_joined.concat(subGreddits_all);
+        const subGreddits_uniq = subGreddits.filter((subGreddit, index, self) =>
+            index === self.findIndex((t) => (
+                t.name === subGreddit.name
+            ))
+        );
+
+    
+
+        
+        res.status(200).json(subGreddits_uniq);
     }
     catch (error) {
         res.status(500).json({ error: error.message });

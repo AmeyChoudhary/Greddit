@@ -33,6 +33,10 @@ const SubGredditSchema = new mongoose.Schema({
             first_name: String,
             last_name: String,
             username: String,
+            joining_date: { 
+                type: Date, 
+                default: Date.now
+            },
         }], sparse: true
     },
     posts_num: {
@@ -71,16 +75,20 @@ const SubGredditSchema = new mongoose.Schema({
             username: String,
         }], sparse: true
     },
-    reported_posts: {
-        type: [{
-            reported_by: String,
-            post_id: String,
-            reported_against: String,
-            concern: String,
-        }], sparse: true
-    
+    reported_posts_num: {
+        type: Number,
+        required: true,
+        trim: true,
+        default: 0,
 
     
+    },
+    deleted_posts_num: {
+        type: Number,
+        required: true,
+        trim: true,
+        default: 0,
+
     },
 }, { timestamps: true
 

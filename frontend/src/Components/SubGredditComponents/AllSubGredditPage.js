@@ -24,6 +24,8 @@ import {
   MDBDropdownItem,
 } from 'mdb-react-ui-kit';
 
+import jwt from 'jwt-decode';
+
 
 
 const AllSubGredditPage = () => {
@@ -31,7 +33,14 @@ const AllSubGredditPage = () => {
   let navigate = useNavigate()
 
   useEffect(() => {
-    allSubGreddits();
+
+    let token = localStorage.getItem("token");
+    if (token) {
+      let decoded_user = jwt(token)
+      let username = decoded_user.username;
+
+     allSubGreddits(username);
+    }
     // is said to disble the warning of react hook dependency missing
     // eslint-disable-next-line
   }, [])
@@ -49,12 +58,15 @@ const AllSubGredditPage = () => {
     ]
   }
 
-  const allSubGreddits = async () => {
+  const allSubGreddits = async (username) => {
     const response = await fetch('http://localhost:4000/subgreddit/allsubgreddits', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        "username": username,
+      }),
     });
     const data = await response.json();
     setSubGreddits(data);

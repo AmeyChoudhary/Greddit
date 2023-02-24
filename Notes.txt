@@ -14,11 +14,11 @@ Signout in Navbar
 
 
 
-
+4. stats moss and look once
 5. error handling
 7. tags and banned single word
 8. posts comments
- user status, blocked and banned 
+9. delete subgreddit disappears
 14. upvote and downvote
 19. edge cases like when delete, completely delete
 21. post count

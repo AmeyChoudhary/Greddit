@@ -55,6 +55,7 @@ export const deleteReportedPost = async (req, res) => {
         await post.delete();
         subGreddit[0].posts = subGreddit[0].posts.filter((post) => post.post_id !== report.reported_post.post_id);
         subGreddit[0].posts_num = subGreddit[0].posts.length;
+        subGreddit[0].deleted_posts_num += 1;
         await subGreddit[0].save();
         await Reports.deleteMany({ "reported_post.post_id": post._id });
         res.status(200).json({ message: "Post deleted" });
@@ -71,6 +72,37 @@ export const blockReportedPost = async (req, res) => {
     post.blocked = true;
     await post.save();
     res.status(200).json({ message: "Poster blocked" });
+
+}
+
+export const stats = async (req, res) => {
+    const { subgreddit_name } = req.body;
+    const subGreddit = await SubGreddit.find({ name: subgreddit_name });
+    const members = subGreddit[0].members;
+
+    let countByJoiningDate = {};
+    members.map((member) => {
+        let joiningdate = member.joining_date.toDateString();
+        if (!countByJoiningDate[joiningdate]) {
+            countByJoiningDate[joiningdate] = 0;
+        }
+        countByJoiningDate[joiningdate]++;
+    })
+        
+    const posts = await Post.find({ "in_subgreddit.name": subgreddit_name });
+    
+    let posts_by_date = {};
+    posts.map((post) => {
+        let creationdate = post.createdAt.toDateString();
+        if (!posts_by_date[creationdate]) {
+            posts_by_date[creationdate] = 0;
+        }
+        posts_by_date[creationdate]++;
+    })
+
+    let reportstat = { numreportedposts: subGreddit[0].reported_posts_num, numdeletedposts: subGreddit[0].deleted_posts_num };
+
+    res.status(200).json({ countByJoiningDate, posts_by_date, reportstat });
 
 }
 

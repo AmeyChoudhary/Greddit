@@ -29,6 +29,10 @@ export const createReport = async (req, res) => {
             post_content: post_content,
         });
         const report = await newReport.save();
+
+        const subgreddit = await SubGreddit.findOne({ name: in_subgreddit });
+        subgreddit.reported_posts_num += 1;
+        await subgreddit.save();
         res.status(200).json(report);
     }
     catch (error) {

@@ -76,7 +76,7 @@ const MySubGredditPage = () => {
   }
 
   const hideButton = (event) => {
-    event.target.style.display = "none";
+    event.target.style.visibility = "hidden";
   }
 
 

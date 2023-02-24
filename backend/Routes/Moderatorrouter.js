@@ -2,6 +2,7 @@ import express from 'express';
 import { UserList , JoiningRequest, AcceptJoiningRequest, RejectJoiningRequest, ReportedPosts} from '../Controllers/Moderator.js';
 import { deleteReportedPost } from '../Controllers/Moderator.js'
 import { blockReportedPost } from '../Controllers/Moderator.js'
+import { stats} from '../Controllers/Moderator.js'
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.post('/reject_joining_request', RejectJoiningRequest);
 router.post('/reported_posts', ReportedPosts);
 router.post('/deletereportedpost', deleteReportedPost)
 router.post('/blockreportedpost', blockReportedPost)
+router.post('/stats', stats)
 
 
 export default router;
