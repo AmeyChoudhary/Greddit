@@ -17,7 +17,7 @@ Signout in Navbar
 
 
 
-8. posts comments built in crude manner
+
 
 23. cancel blocking
 	timer 
