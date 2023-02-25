@@ -134,6 +134,7 @@ const Reported_Page = () => {
     const data = await response.json();
     console.log("This is data", data)
     reports.filter((report) => report.report_id !== report_id)
+    window.location.reload();
     
 
 

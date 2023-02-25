@@ -59,6 +59,7 @@ export const deleteReportedPost = async (req, res) => {
     try {
         const report = await Reports.findById(report_id);
         const post = await Post.findById(report.reported_post.post_id);
+        
         const subGreddit = await SubGreddit.find({ name: report.in_subgreddit.name });
         await post.delete();
         subGreddit[0].posts = subGreddit[0].posts.filter((post) => post.post_id !== report.reported_post.post_id);
