@@ -1,43 +1,72 @@
-version: "3.8"
+# version: "3.8"
+# services:
+#   mongodb:
+#     image: "mongo"
+#     volumes:
+#       - data:/data/db
+#     networks:
+#       - mern-network
+#   backend:
+#     build: ./backend
+#     restart: unless-stopped
+#     ports:
+#       - "4000:4000"
+#     volumes:
+#       - logs:/app/logs
+#       - ./backend:/app
+#       - /app/node_modules
+#     depends_on:
+#       - mongodb
+#     networks:
+#       - mern-network
+#   frontend:
+#     build: ./frontend
+#     restart: unless-stopped
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./frontend/src:/app/src
+#     stdin_open: true
+#     tty: true
+#     depends_on:
+#       - backend
+#     networks:
+#       - mern-network
+
+# networks:
+#    mern-network:
+#      driver: bridge
+
+# volumes:
+#   data:
+#   logs:
+
+
+version: '3.8'
+
 services:
-  mongodb:
-    image: "mongo"
-    volumes:
-      - data:/data/db
-    networks:
-      - mern-network
   backend:
+    # depends_on:
     build: ./backend
     restart: unless-stopped
+    # env_file: ./.env
     ports:
       - "4000:4000"
-    volumes:
-      - logs:/app/logs
-      - ./backend:/app
-      - /app/node_modules
-    depends_on:
-      - mongodb
-    networks:
-      - mern-network
+
   frontend:
-    build: ./frontend
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend/src:/app/src
-    stdin_open: true
-    tty: true
     depends_on:
       - backend
-    networks:
-      - mern-network
+    build:
+      context: ./frontend
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "3000:3000" 
+
+volumes: 
+  db:
 
 networks:
-   mern-network:
-     driver: bridge
-
-volumes:
-  data:
-  logs:
-
+  backend:
+  frontend:

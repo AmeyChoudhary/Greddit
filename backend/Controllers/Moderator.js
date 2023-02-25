@@ -79,6 +79,8 @@ export const blockReportedPost = async (req, res) => {
     const post = await Post.findById(report.reported_post.post_id);
     post.blocked = true;
     await post.save();
+    report.status = "Blocked";
+    await report.save();
     res.status(200).json({ message: "Poster blocked" });
 
 }

@@ -16,6 +16,7 @@ const Reported_Page = () => {
   
 
 
+
   useEffect(() => {
 
     const Fetchdata = async () => {
@@ -141,6 +142,8 @@ const Reported_Page = () => {
 
 
   const BlockPost = async (report_id) => {
+
+
     const response = await fetch(`http://localhost:4000/moderator/blockreportedpost`, {
       method: 'POST',
       headers: {
@@ -152,10 +155,16 @@ const Reported_Page = () => {
     });
     const data = await response.json();
     console.log(data)
+    alert("Poster has been blocked")
     reports.filter((report) => report.report_id !== report_id)
+    window.location.reload();
 
     
   }
+
+
+
+
 
 
   return (
@@ -205,9 +214,14 @@ const Reported_Page = () => {
                 </MDBCardBody>
                 {edit_access &&
                   <MDBCardFooter className="text-muted text-center">
-                   { report.status === "pending" &&
+                   { report.status === "pending" && 
                       <MDBBtn id="block" onClick={(event) => { BlockPost(report._id) }}> Block User </MDBBtn>
                 }
+                {
+                  report.status === "Blocked" &&
+                  <MDBBtn id="blocked">  User is Blocked</MDBBtn>
+                }
+     
 
                   </MDBCardFooter>
                 }
