@@ -25,6 +25,7 @@ sudo docker-compose build
 sudo docker-compose up
 
 ```
+Compose build will take time to run.
 The web app should run on localhost:3000.
 
 ### Through frontend and backend individually
