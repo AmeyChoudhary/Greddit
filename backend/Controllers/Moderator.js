@@ -134,7 +134,8 @@ export const stats = async (req, res) => {
 
 
         
-    const posts = await Post.find({ "in_subgreddit.name": subgreddit_name });
+    const posts = await Post.find({ "subgreddit.name": subgreddit_name });
+    
     const posts_grouped = posts.map((post) => {
         return {
             date: post.createdAt.toDateString(),

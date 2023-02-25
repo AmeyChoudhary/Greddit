@@ -1,4 +1,3 @@
-# version: "3.8"
 # services:
 #   mongodb:
 #     image: "mongo"
@@ -6,11 +5,6 @@
 #       - data:/data/db
 #     networks:
 #       - mern-network
-#   backend:
-#     build: ./backend
-#     restart: unless-stopped
-#     ports:
-#       - "4000:4000"
 #     volumes:
 #       - logs:/app/logs
 #       - ./backend:/app
@@ -45,28 +39,34 @@
 version: '3.8'
 
 services:
+
   backend:
-    # depends_on:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     restart: unless-stopped
-    # env_file: ./.env
+    # .env gave error
     ports:
       - "4000:4000"
+    # where backend is stored
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    
 
   frontend:
     depends_on:
       - backend
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     stdin_open: true
     tty: true
     restart: unless-stopped
     ports:
       - "3000:3000" 
+    volumes:
+      - ./frontend/src:/app/src
+      - /app/src/node_modules
 
-volumes: 
-  db:
 
-networks:
-  backend:
-  frontend:
