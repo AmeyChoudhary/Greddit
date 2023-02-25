@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   backend:
     build:
       context: ./backend
@@ -13,8 +12,6 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-    
-
   frontend:
     depends_on:
       - backend
@@ -28,6 +25,15 @@ services:
       - "3000:3000" 
     volumes:
       - ./frontend/src:/app/src
+  nginx:
+    depends_on:
+       - backend
+       - frontend
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+       - "8080:8080"
 
 
 
