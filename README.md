@@ -12,6 +12,7 @@
 8. You can save posts for future references.
 9. You can report other users. As a moderator, you can either ignore report, or block user or delete post.
 10. You can view stats.
+11. Some libraries might need to be installed like bcrypt , jsonwebtoken.
 
 ### For running the file
 
