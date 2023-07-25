@@ -1,7 +1,7 @@
 ### Amey Choudhary
 ### 2021113017
 
-The following project is part of DASS 2023. It is a social media platform, similar to Reddit. It has been implemented using MERN stack/
+The following project is part of DASS 2023. It is a social media platform, similar to Reddit. It has been implemented using MERN stack.
 
 It has the following functionalities:
 1. For Registration, input your details. The contact number and age must be numbers while other are text.
@@ -31,7 +31,7 @@ sudo docker-compose up
 Compose build will take time to run.
 The web app should run on localhost:3000.
 
-### Through frontend and backend individually
+#### Through frontend and backend individually
 
 For frontend, first cd into frontend folder:
 
